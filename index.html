@@ -1,0 +1,2849 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>NeuroFlora</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.5/purify.min.js"></script>
+    <style>
+        :root {
+            --primary: #10a37f;
+            --primary-light: rgba(16, 163, 127, 0.08);
+            --primary-dark: #0d8c6d;
+            --accent: #6e41e2;
+            --success: #10a37f;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --bg-tertiary: #f1f3f5;
+            --bg-sidebar: #fafafa;
+            --bg-card: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666666;
+            --text-tertiary: #8e8e93;
+            --text-muted: #999999;
+            --border: #e9ecef;
+            --border-light: #f1f3f5;
+            --shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.1);
+            --radius: 16px;
+            --radius-md: 12px;
+            --radius-sm: 8px;
+            --radius-xs: 6px;
+            --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            --sidebar-width: 300px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            font-size: 16px;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            height: 100vh;
+            height: -webkit-fill-available;
+            overflow: hidden;
+            touch-action: pan-x pan-y;
+        }
+
+        .app-container {
+            display: flex;
+            height: 100vh;
+            height: -webkit-fill-available;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--bg-sidebar);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            transition: transform var(--transition);
+            z-index: 1000;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+        }
+
+        .sidebar.hidden {
+            transform: translateX(-100%);
+        }
+
+        .sidebar-toggle-btn {
+            position: absolute;
+            top: 20px;
+            left: 100%;
+            width: 32px;
+            height: 32px;
+            border-radius: var(--radius-sm);
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            z-index: 1001;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            margin-left: 8px;
+        }
+
+        .sidebar.hidden .sidebar-toggle-btn {
+            left: 0;
+            transform: translateX(0);
+        }
+
+        .sidebar-toggle-btn:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+
+        .user-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .user-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 15px;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .user-status {
+            font-size: 12px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+        }
+
+        .new-chat-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            font-weight: 500;
+            font-size: 15px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 12px 0;
+            flex-shrink: 0;
+        }
+
+        .new-chat-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .sidebar-nav {
+            padding: 12px 0;
+            flex-shrink: 0;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 20px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+            margin: 0 12px;
+            border-radius: var(--radius-md);
+            text-decoration: none;
+        }
+
+        .nav-item:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            background: var(--primary-light);
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .nav-item i {
+            width: 20px;
+            text-align: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .history-section {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0 12px 20px;
+            -webkit-overflow-scrolling: touch;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+
+        .history-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 20px 8px 8px;
+            position: sticky;
+            top: 0;
+            background: var(--bg-sidebar);
+            z-index: 1;
+            flex-shrink: 0;
+        }
+
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+        }
+
+        .history-item {
+            padding: 14px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            border: 1px solid transparent;
+            position: relative;
+            text-decoration: none;
+            user-select: none;
+            flex-shrink: 0;
+        }
+
+        .history-item:hover {
+            background: var(--bg-tertiary);
+            border-color: var(--border-light);
+        }
+
+        .history-item:hover .history-delete-btn {
+            opacity: 1;
+        }
+
+        .history-item.active {
+            background: var(--primary-light);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .history-preview {
+            flex: 1;
+            min-width: 0;
+            padding-right: 30px;
+        }
+
+        .history-text {
+            font-size: 14px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 4px;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .history-time {
+            font-size: 11px;
+            color: var(--text-tertiary);
+        }
+
+        .history-delete-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
+            border-radius: var(--radius-xs);
+            border: none;
+            background: transparent;
+            color: var(--text-tertiary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+
+        .history-delete-btn:hover {
+            color: var(--danger);
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            background: var(--bg-primary);
+            width: 100%;
+            margin-left: 0;
+            transition: margin-left var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sidebar:not(.hidden) ~ .main-content {
+            margin-left: var(--sidebar-width);
+        }
+
+        .main-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bg-primary);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            flex-shrink: 0;
+            min-height: 64px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: var(--text-primary);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+
+        .menu-toggle:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .chat-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .header-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-md);
+            border: none;
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .header-btn:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .chat-area {
+            flex: 1;
+            min-height: 0;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-container {
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+            padding: 20px;
+            padding-bottom: 140px;
+            -webkit-overflow-scrolling: touch;
+            width: 100%;
+            scroll-behavior: smooth;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-messages {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+
+        .welcome-message {
+            max-width: 100%;
+            margin: 0 auto;
+            text-align: center;
+            padding: 40px 20px;
+            width: 100%;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            flex: 1;
+        }
+
+        .welcome-message.show {
+            display: flex;
+        }
+
+        .welcome-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--bg-tertiary);
+            background-image: url('https://i.postimg.cc/vBCd4Vpk/Bez-nazvania55-20251215013207.png');
+            background-size: 120%;
+            background-repeat: no-repeat;
+            background-position: center;
+            margin-bottom: 24px;
+            border: 2px solid var(--border);
+        }
+
+        .welcome-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+        }
+
+        .welcome-subtitle {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+            line-height: 1.5;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .example-questions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 12px;
+            margin-top: 32px;
+            width: 100%;
+            max-width: 640px;
+        }
+
+        .example-card {
+            padding: 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: left;
+            user-select: none;
+        }
+
+        .example-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .example-text {
+            font-size: 15px;
+            line-height: 1.5;
+            color: var(--text-primary);
+        }
+
+        .message {
+            display: flex;
+            margin-bottom: 16px;
+            max-width: 100%;
+            width: 100%;
+            animation: fadeIn 0.3s ease-out;
+            flex-shrink: 0;
+        }
+
+        .user-message {
+            justify-content: flex-end;
+        }
+
+        .message-container {
+            display: flex;
+            max-width: 85%;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .user-message .message-container {
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .user-avatar-sm {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .bot-avatar-sm {
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+            background-image: url('https://i.postimg.cc/SxdqDwpy/Bez-nazvania54-20251214232638.png');
+        }
+
+        .message-content-wrapper {
+            flex: 1;
+            min-width: 0;
+            max-width: 100%;
+        }
+
+        .message-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+
+        .message-author {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+
+        .message-time {
+            font-size: 11px;
+            color: var(--text-tertiary);
+        }
+
+        .message-content {
+            background: var(--bg-secondary);
+            border-radius: 18px;
+            padding: 12px 16px;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-size: 15px;
+            border: 1px solid transparent;
+            overflow-wrap: break-word;
+            max-width: 100%;
+        }
+
+        .user-message .message-content {
+            background: var(--primary);
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .bot-message .message-content {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border-bottom-left-radius: 4px;
+        }
+
+        .message-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 8px 12px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+            background: var(--bg-primary);
+            color: var(--text-secondary);
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+            min-height: 36px;
+        }
+
+        .action-btn:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .action-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            background: var(--bg-secondary);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            max-width: 85%;
+            margin-bottom: 16px;
+            flex-shrink: 0;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .typing-dots span {
+            width: 8px;
+            height: 8px;
+            background: var(--text-secondary);
+            border-radius: 50%;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+        .input-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--bg-primary);
+            border-top: 1px solid var(--border);
+            padding: 16px 20px 20px;
+            transition: left var(--transition);
+            z-index: 100;
+        }
+
+        .sidebar:not(.hidden) ~ .input-container {
+            left: var(--sidebar-width);
+        }
+
+        .input-wrapper {
+            max-width: 100%;
+            margin: 0 auto;
+            position: relative;
+            width: 100%;
+        }
+
+        .input-area {
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+        }
+
+        .input-field {
+            flex: 1;
+            padding: 14px 16px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 15px;
+            font-family: var(--font-family);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            resize: none;
+            max-height: 120px;
+            min-height: 52px;
+            line-height: 1.5;
+            transition: var(--transition);
+            white-space: pre-wrap;
+            overflow-wrap: break-word;
+            -webkit-appearance: none;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(16, 163, 127, 0.1);
+        }
+
+        .input-field::placeholder {
+            color: var(--text-tertiary);
+        }
+
+        .send-button {
+            width: 44px;
+            height: 44px;
+            border-radius: var(--radius-md);
+            border: none;
+            background: var(--primary);
+            color: white;
+            cursor: pointer;
+            transition: var(--transition);
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .send-button:hover:not(:disabled) {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .send-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .input-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 12px;
+            font-size: 12px;
+            color: var(--text-tertiary);
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .char-count {
+            flex-shrink: 0;
+        }
+
+        .ai-disclaimer {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-align: center;
+            margin-top: 12px;
+            padding: 8px;
+            border-radius: var(--radius-sm);
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            line-height: 1.4;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 20px;
+            backdrop-filter: blur(4px);
+            animation: fadeIn 0.2s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .settings-modal {
+            background: var(--bg-primary);
+            border-radius: var(--radius);
+            width: 100%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+            animation: modalSlideIn 0.3s ease;
+            border: 1px solid var(--border);
+        }
+
+        .modal-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            border-radius: var(--radius) var(--radius) 0 0;
+            flex-shrink: 0;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .modal-close {
+            background: var(--bg-secondary);
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .modal-close:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .modal-content {
+            padding: 24px;
+        }
+
+        .settings-section {
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .stat-card {
+            padding: 16px;
+            background: var(--bg-secondary);
+            border-radius: var(--radius);
+            text-align: center;
+            border: 1px solid var(--border);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 90px;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 6px;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            line-height: 1.2;
+        }
+
+        .language-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 10px;
+        }
+
+        .language-option {
+            padding: 16px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-md);
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            background: var(--bg-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-height: 56px;
+        }
+
+        .language-option:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .language-option.active {
+            border-color: var(--primary);
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .language-option.active .checkmark {
+            display: block;
+        }
+
+        .checkmark {
+            display: none;
+            color: var(--primary);
+            font-size: 14px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes modalSlideIn {
+            from { opacity: 0; transform: translateY(-20px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @keyframes typing {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+
+        @media (max-width: 768px) {
+            html {
+                font-size: 15px;
+            }
+
+            .sidebar {
+                width: 100%;
+                max-width: 320px;
+                transform: translateX(-100%);
+                box-shadow: var(--shadow-lg);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .sidebar-toggle-btn {
+                display: none;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .main-header {
+                padding: 12px 16px;
+                min-height: 56px;
+            }
+
+            .chat-container {
+                padding: 16px;
+                padding-bottom: 140px;
+            }
+
+            .input-container {
+                padding: 12px 16px 16px;
+                left: 0 !important;
+            }
+
+            .welcome-message {
+                padding: 32px 16px;
+            }
+
+            .welcome-title {
+                font-size: 24px;
+            }
+
+            .welcome-subtitle {
+                font-size: 15px;
+                margin-bottom: 24px;
+            }
+
+            .example-questions {
+                grid-template-columns: 1fr;
+                gap: 10px;
+                margin-top: 24px;
+            }
+
+            .example-card {
+                padding: 16px;
+            }
+
+            .message {
+                margin-bottom: 20px;
+            }
+
+            .message-container {
+                max-width: 90%;
+            }
+
+            .message-content {
+                padding: 14px;
+            }
+
+            .message-actions {
+                gap: 6px;
+            }
+
+            .action-btn {
+                padding: 6px 10px;
+                font-size: 12px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+            }
+
+            .stat-card {
+                padding: 12px;
+                min-height: 80px;
+            }
+
+            .stat-value {
+                font-size: 22px;
+            }
+
+            .stat-label {
+                font-size: 12px;
+            }
+
+            .language-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
+
+            .language-option {
+                padding: 14px 12px;
+                font-size: 14px;
+                min-height: 52px;
+            }
+
+            .history-delete-btn {
+                opacity: 1;
+            }
+
+            .sidebar:not(.hidden) ~ .main-content {
+                margin-left: 0;
+            }
+
+            .modal-content {
+                padding: 20px;
+            }
+
+            .modal-header {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            html {
+                font-size: 14px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .language-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .message-header {
+                gap: 10px;
+            }
+
+            .message-avatar {
+                width: 32px;
+                height: 32px;
+                font-size: 14px;
+            }
+
+            .input-area {
+                gap: 10px;
+            }
+
+            .input-field {
+                padding: 12px 14px;
+                min-height: 48px;
+            }
+
+            .send-button {
+                width: 40px;
+                height: 40px;
+            }
+
+            .sidebar-header {
+                padding: 16px;
+            }
+
+            .user-avatar {
+                width: 44px;
+                height: 44px;
+                font-size: 16px;
+            }
+
+            .nav-item {
+                padding: 12px 16px;
+                margin: 0 8px;
+            }
+
+            .message-container {
+                max-width: 95%;
+            }
+        }
+
+        @media (max-height: 600px) {
+            .welcome-message {
+                padding: 20px 16px;
+            }
+
+            .welcome-icon {
+                width: 60px;
+                height: 60px;
+                margin-bottom: 16px;
+            }
+
+            .welcome-title {
+                font-size: 22px;
+                margin-bottom: 12px;
+            }
+
+            .welcome-subtitle {
+                font-size: 14px;
+                margin-bottom: 20px;
+            }
+
+            .example-questions {
+                margin-top: 20px;
+            }
+        }
+
+        .dark-theme {
+            --primary: #10a37f;
+            --primary-light: rgba(16, 163, 127, 0.15);
+            --accent: #8b5cf6;
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2d2d2d;
+            --bg-tertiary: #3d3d3d;
+            --bg-sidebar: #252525;
+            --bg-card: #2d2d2d;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --text-tertiary: #8e8e93;
+            --text-muted: #6b7280;
+            --border: #404040;
+            --border-light: #333333;
+            --shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--text-tertiary);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-secondary);
+        }
+
+        .mobile-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            backdrop-filter: blur(2px);
+        }
+
+        .mobile-overlay.active {
+            display: block;
+        }
+
+        .no-scroll {
+            overflow: hidden;
+        }
+
+        .scroll-lock {
+            overflow: hidden !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="sidebar" id="sidebar">
+            <button class="sidebar-toggle-btn" id="sidebar-toggle">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="sidebar-header">
+                <div class="user-profile">
+                    <div class="user-avatar" id="user-avatar">U</div>
+                    <div class="user-info">
+                        <div class="user-name" id="user-name">Пользователь</div>
+                        <div class="user-status">
+                            <span class="status-dot"></span>
+                            <span id="user-status-text">Онлайн</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="new-chat-btn" id="new-chat-btn">
+                    <i class="fas fa-plus"></i>
+                    <span id="new-chat-text">Новый чат</span>
+                </button>
+            </div>
+
+            <div class="sidebar-nav">
+                <div class="nav-item active" data-tab="chat">
+                    <i class="fas fa-comment"></i>
+                    <span id="chat-tab-text">Чат</span>
+                </div>
+                <div class="nav-item" id="settings-btn">
+                    <i class="fas fa-cog"></i>
+                    <span id="settings-tab-text">Настройки</span>
+                </div>
+            </div>
+
+            <div class="history-section">
+                <div class="history-title">
+                    <span id="history-title-text">История чатов</span>
+                </div>
+                <div class="history-list" id="history-list"></div>
+            </div>
+        </div>
+
+        <div class="mobile-overlay" id="mobile-overlay"></div>
+
+        <div class="main-content">
+            <div class="main-header">
+                <div class="header-left">
+                    <button class="menu-toggle" id="menu-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="chat-title" id="current-chat-title">NeuroFlora</div>
+                </div>
+                
+                <div class="header-actions">
+                    <button class="header-btn" id="theme-toggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <button class="header-btn" id="clear-chat">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="chat-area">
+                <div class="chat-container" id="chat-container">
+                    <div class="chat-messages" id="chat-messages">
+                        <div class="welcome-message" id="welcome-message">
+                            <div class="welcome-icon"></div>
+                            <h1 class="welcome-title" id="welcome-title">NeuroFlora</h1>
+                            <p class="welcome-subtitle" id="welcome-subtitle">
+                                Ваш AI-помощник по садоводству. Задавайте вопросы о растениях,<br>
+                                уходе за ними, болезнях и удобрениях.
+                            </p>
+                            
+                            <div class="example-questions" id="example-questions">
+                                <div class="example-card" data-question="Как ухаживать за орхидеей?">
+                                    <div class="example-text">Как ухаживать за орхидеей?</div>
+                                </div>
+                                <div class="example-card" data-question="Почему желтеют листья у фикуса?">
+                                    <div class="example-text">Почему желтеют листья у фикуса?</div>
+                                </div>
+                                <div class="example-card" data-question="Какие удобрения подходят для роз?">
+                                    <div class="example-text">Какие удобрения подходят для роз?</div>
+                                </div>
+                                <div class="example-card" data-question="Как часто поливать кактусы?">
+                                    <div class="example-text">Как часто поливать кактусы?</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="messages-container"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-container">
+                <div class="input-wrapper">
+                    <div class="input-area">
+                        <textarea 
+                            class="input-field" 
+                            id="message-input" 
+                            placeholder="Задайте вопрос о растениях..." 
+                            rows="1"
+                            maxlength="2000"
+                        ></textarea>
+                        
+                        <button class="send-button" id="send-button">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="input-footer">
+                        <div class="char-count">0/2000</div>
+                        <div>NeuroFlora AI</div>
+                    </div>
+                    <div class="ai-disclaimer" id="ai-disclaimer">
+                        Ответы сгенерированы искусственным интеллектом и могут содержать ошибки. Проверяйте важную информацию.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="settings-modal">
+            <div class="settings-modal">
+                <div class="modal-header">
+                    <div class="modal-title">
+                        <i class="fas fa-cog"></i>
+                        <span id="modal-title-text">Настройки</span>
+                    </div>
+                    <button class="modal-close" id="modal-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="modal-content">
+                    <div class="settings-section">
+                        <div class="section-title">
+                            <i class="fas fa-chart-bar"></i>
+                            <span id="stats-title-text">Статистика</span>
+                        </div>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-value" id="stat-total">0</div>
+                                <div class="stat-label" id="total-questions-text">Всего вопросов</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value" id="stat-helpful">0%</div>
+                                <div class="stat-label" id="helpful-answers-text">Полезных ответов</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value" id="stat-language">RU</div>
+                                <div class="stat-label" id="language-text">Язык</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <div class="section-title">
+                            <i class="fas fa-language"></i>
+                            <span id="interface-language-text">Язык интерфейса</span>
+                        </div>
+                        <div class="language-grid">
+                            <div class="language-option active" data-lang="ru">
+                                🇷🇺 Русский
+                                <span class="checkmark">✓</span>
+                            </div>
+                            <div class="language-option" data-lang="en">
+                                🇺🇸 English
+                                <span class="checkmark">✓</span>
+                            </div>
+                            <div class="language-option" data-lang="uk">
+                                🇺🇦 Українська
+                                <span class="checkmark">✓</span>
+                            </div>
+                            <div class="language-option" data-lang="be">
+                                🇧🇾 Беларуская
+                                <span class="checkmark">✓</span>
+                            </div>
+                            <div class="language-option" data-lang="kk">
+                                🇰🇿 Қазақша
+                                <span class="checkmark">✓</span>
+                            </div>
+                            <div class="language-option" data-lang="fr">
+                                🇫🇷 Français
+                                <span class="checkmark">✓</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        'use strict';
+
+        (function() {
+            const Telegram = window.Telegram.WebApp;
+            Telegram.expand();
+            Telegram.BackButton.hide();
+
+            const ENCRYPTED_API_KEY = "c2stb3ItdjEtNzljNTllNzQ0NWNhZGE1NDQ1MTg3NjZjYjc2ZWM2YTNiYzhhNDBiYzVjMGQ2YmVmOGRhOGYxMDdmYTNlYzVjYw==";
+            
+            const decryptApiKey = (encrypted) => {
+                try {
+                    return atob(encrypted);
+                } catch (e) {
+                    console.error('Ошибка расшифровки API ключа:', e);
+                    return '';
+                }
+            };
+            
+            const OPENROUTER_API_KEY = decryptApiKey(ENCRYPTED_API_KEY);
+            const API_URL = "https://openrouter.ai/api/v1/chat/completions";
+            
+            const SECURITY_CONFIG = {
+                MAX_MESSAGE_LENGTH: 2000,
+                MAX_HISTORY_ITEMS: 50,
+                MAX_MESSAGES_PER_CHAT: 100,
+                REQUEST_TIMEOUT: 30000,
+                DEBOUNCE_DELAY: 300
+            };
+
+            const state = {
+                currentChatId: 'default',
+                chats: {},
+                userSettings: {
+                    language: 'ru',
+                    theme: 'light',
+                    sidebarHidden: false
+                },
+                messageRatings: {},
+                rateLimits: {
+                    lastRequest: 0,
+                    requestCount: 0
+                }
+            };
+
+            const loadFromStorage = (key, defaultValue) => {
+                try {
+                    const item = localStorage.getItem(key);
+                    return item ? JSON.parse(item) : defaultValue;
+                } catch (e) {
+                    console.error('Ошибка загрузки из localStorage:', e);
+                    return defaultValue;
+                }
+            };
+
+            const saveToStorage = (key, data) => {
+                try {
+                    localStorage.setItem(key, JSON.stringify(data));
+                } catch (e) {
+                    console.error('Ошибка сохранения в localStorage:', e);
+                    if (e.name === 'QuotaExceededError') {
+                        cleanHistory();
+                        localStorage.setItem(key, JSON.stringify(data));
+                    }
+                }
+            };
+
+            const cleanHistory = () => {
+                Object.values(state.chats).forEach(chat => {
+                    if (chat.messages.length > SECURITY_CONFIG.MAX_MESSAGES_PER_CHAT) {
+                        chat.messages = chat.messages.slice(-SECURITY_CONFIG.MAX_MESSAGES_PER_CHAT);
+                    }
+                });
+                
+                const chatIds = Object.keys(state.chats);
+                if (chatIds.length > SECURITY_CONFIG.MAX_HISTORY_ITEMS) {
+                    const sortedChats = chatIds
+                        .map(id => state.chats[id])
+                        .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+                    
+                    const chatsToKeep = sortedChats.slice(0, SECURITY_CONFIG.MAX_HISTORY_ITEMS);
+                    state.chats = {};
+                    chatsToKeep.forEach(chat => {
+                        state.chats[chat.id] = chat;
+                    });
+                }
+            };
+
+            const escapeHtml = (text) => {
+                if (typeof text !== 'string') return text;
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            };
+
+            const sanitizeInput = (input) => {
+                if (typeof input !== 'string') return '';
+                return input
+                    .slice(0, SECURITY_CONFIG.MAX_MESSAGE_LENGTH)
+                    .replace(/[<>]/g, '')
+                    .trim();
+            };
+
+            const validateMessage = (message) => {
+                if (!message || typeof message !== 'string') return false;
+                if (message.length > SECURITY_CONFIG.MAX_MESSAGE_LENGTH) return false;
+                if (message.trim().length === 0) return false;
+                
+                const now = Date.now();
+                if (now - state.rateLimits.lastRequest < 1000) {
+                    state.rateLimits.requestCount++;
+                    if (state.rateLimits.requestCount > 5) {
+                        return false;
+                    }
+                } else {
+                    state.rateLimits.requestCount = 1;
+                }
+                state.rateLimits.lastRequest = now;
+                
+                return true;
+            };
+
+            const texts = {
+                ru: {
+                    welcomeTitle: "NeuroFlora",
+                    welcomeSubtitle: "Ваш AI-помощник по садоводству. Задавайте вопросы о растениях, уходе за ними, болезнях и удобрениях.",
+                    placeholder: "Задайте вопрос о растениях...",
+                    typing: "Печатает...",
+                    rateHelpful: "Полезно",
+                    rateNotHelpful: "Не полезно",
+                    copy: "Копировать",
+                    delete: "Удалить",
+                    regenerate: "Сгенерировать заново",
+                    noHistory: "История пуста",
+                    totalQuestions: "Всего вопросов",
+                    helpfulAnswers: "Полезных ответов",
+                    language: "Язык",
+                    newChat: "Новый чат",
+                    clearChat: "Очистить чат",
+                    settings: "Настройки",
+                    online: "Онлайн",
+                    aiDisclaimer: "Ответы сгенерированы искусственным интеллектом и могут содержать ошибки. Проверяйте важную информацию.",
+                    languageChanged: "Язык изменен",
+                    chatCleared: "Чат очищен",
+                    confirmClear: "Вы уверены, что хотите очистить чат? Все сообщения будут удалены.",
+                    confirmDeleteChat: "Удалить этот чат? Это действие нельзя отменить.",
+                    sendError: "Ошибка при отправке сообщения. Попробуйте еще раз.",
+                    copySuccess: "Текст скопирован",
+                    exampleQuestions: [
+                        "Как ухаживать за орхидеей?",
+                        "Почему желтеют листья у фикуса?",
+                        "Какие удобрения подходят для роз?",
+                        "Как часто поливать кактусы?"
+                    ],
+                    chat: "Чат",
+                    history: "История чатов",
+                    stats: "Статистика",
+                    interfaceLanguage: "Язык интерфейса",
+                    serverOverloaded: "Сервер перегружен, попробуйте позже"
+                },
+                en: {
+                    welcomeTitle: "NeuroFlora",
+                    welcomeSubtitle: "Your AI gardening assistant. Ask questions about plants, care, diseases and fertilizers.",
+                    placeholder: "Ask a question about plants...",
+                    typing: "Typing...",
+                    rateHelpful: "Helpful",
+                    rateNotHelpful: "Not helpful",
+                    copy: "Copy",
+                    delete: "Delete",
+                    regenerate: "Regenerate",
+                    noHistory: "No history",
+                    totalQuestions: "Total questions",
+                    helpfulAnswers: "Helpful answers",
+                    language: "Language",
+                    newChat: "New chat",
+                    clearChat: "Clear chat",
+                    settings: "Settings",
+                    online: "Online",
+                    aiDisclaimer: "Responses are generated by artificial intelligence and may contain errors. Verify important information.",
+                    languageChanged: "Language changed",
+                    chatCleared: "Chat cleared",
+                    confirmClear: "Are you sure you want to clear the chat? All messages will be deleted.",
+                    confirmDeleteChat: "Delete this chat? This action cannot be undone.",
+                    sendError: "Error sending message. Please try again.",
+                    copySuccess: "Text copied",
+                    exampleQuestions: [
+                        "How to care for an orchid?",
+                        "Why do ficus leaves turn yellow?",
+                        "What fertilizers are suitable for roses?",
+                        "How often to water cacti?"
+                    ],
+                    chat: "Chat",
+                    history: "Chat History",
+                    stats: "Statistics",
+                    interfaceLanguage: "Interface language",
+                    serverOverloaded: "Server overloaded, try again later"
+                },
+                uk: {
+                    welcomeTitle: "NeuroFlora",
+                    welcomeSubtitle: "Ваш AI-помічник з садівництва. Задавайте питання про рослини, догляд, хвороби та добрива.",
+                    placeholder: "Задайте питання про рослини...",
+                    typing: "Друкує...",
+                    rateHelpful: "Корисно",
+                    rateNotHelpful: "Не корисно",
+                    copy: "Копіювати",
+                    delete: "Видалити",
+                    regenerate: "Згенерувати знову",
+                    noHistory: "Історія порожня",
+                    totalQuestions: "Всього питань",
+                    helpfulAnswers: "Корисних відповідей",
+                    language: "Мова",
+                    newChat: "Новий чат",
+                    clearChat: "Очистити чат",
+                    settings: "Налаштування",
+                    online: "Онлайн",
+                    aiDisclaimer: "Відповіді генеруються штучним інтелектом і можуть містити помилки. Перевіряйте важливу інформацію.",
+                    languageChanged: "Мову змінено",
+                    chatCleared: "Чат очищено",
+                    confirmClear: "Ви впевнені, що хочете очистити чат? Усі повідомлення будуть видалені.",
+                    confirmDeleteChat: "Видалити цей чат? Цю дію не можна скасувати.",
+                    sendError: "Помилка при надсиланні повідомлення. Спробуйте ще раз.",
+                    copySuccess: "Текст скопійовано",
+                    exampleQuestions: [
+                        "Як доглядати за орхідеєю?",
+                        "Чому жовтіють листя у фікуса?",
+                        "Які добрива підходять для троянд?",
+                        "Як часто поливати кактуси?"
+                    ],
+                    chat: "Чат",
+                    history: "Історія чатів",
+                    stats: "Статистика",
+                    interfaceLanguage: "Мова інтерфейсу",
+                    serverOverloaded: "Сервер перевантажений, спробуйте пізніше"
+                },
+                be: {
+                    welcomeTitle: "NeuroFlora",
+                    welcomeSubtitle: "Ваш AI-памочнік па садоўніцтве. Задавайце пытанні пра расліны, догляд, хваробы і ўгнаенні.",
+                    placeholder: "Задайце пытанне пра расліны...",
+                    typing: "Друкуе...",
+                    rateHelpful: "Карысна",
+                    rateNotHelpful: "Не карысна",
+                    copy: "Капіяваць",
+                    delete: "Выдаліць",
+                    regenerate: "Згенераваць нанова",
+                    noHistory: "Гісторыя пустая",
+                    totalQuestions: "Усяго пытанняў",
+                    helpfulAnswers: "Карысных адказаў",
+                    language: "Мова",
+                    newChat: "Новы чат",
+                    clearChat: "Ачысціць чат",
+                    settings: "Налады",
+                    online: "Ёнлайн",
+                    aiDisclaimer: "Адказы генеруюцца штучным інтэлектам і могуць утрымліваць памылкі. Правярайце важную інфармацыю.",
+                    languageChanged: "Мову зменена",
+                    chatCleared: "Чат ачышчаны",
+                    confirmClear: "Вы ўпэўнены, што хочаце ачысціць чат? Усе паведамленні будуць выдалены.",
+                    confirmDeleteChat: "Выдаліць гэты чат? Гэта дзеянне нельга адмяніць.",
+                    sendError: "Памылка пры адпраўцы паведамлення. Паспрабуйце яшчэ раз.",
+                    copySuccess: "Тэкст скапіяваны",
+                    exampleQuestions: [
+                        "Як даглядаць за архідэяй?",
+                        "Чаму жаўцеють лісце ў фікуса?",
+                        "Якія ўгнаенні падыходзяць для руж?",
+                        "Як часта паліваць кактусы?"
+                    ],
+                    chat: "Чат",
+                    history: "Гісторыя чатаў",
+                    stats: "Статыстыка",
+                    interfaceLanguage: "Мова інтэрфейсу",
+                    serverOverloaded: "Сервер перагружаны, паспрабуйце пазней"
+                },
+                kk: {
+                    welcomeTitle: "NeuroFlora",
+                    welcomeSubtitle: "Сіздің AI бақша көмекшісіңіз. Өсімдіктер, күтім, аурулар және тыңайтқыштар туралы сұрақтар қойыңыз.",
+                    placeholder: "Өсімдіктер туралы сұрақ қойыңыз...",
+                    typing: "Теріледі...",
+                    rateHelpful: "Пайдалы",
+                    rateNotHelpful: "Пайдасыз",
+                    copy: "Көшіру",
+                    delete: "Жою",
+                    regenerate: "Қайта генерациялау",
+                    noHistory: "Тарихы бос",
+                    totalQuestions: "Барлық сұрақтар",
+                    helpfulAnswers: "Пайдалы жауаптар",
+                    language: "Тіл",
+                    newChat: "Жаңа чат",
+                    clearChat: "Чатты тазалау",
+                    settings: "Баптаулар",
+                    online: "Онлайн",
+                    aiDisclaimer: "Жауаптар жасанды интеллект арқылы жасалады және қателері болуы мүмкін. Маңызды ақпаратты тексеріңіз.",
+                    languageChanged: "Тіл өзгертілді",
+                    chatCleared: "Чат тазаланды",
+                    confirmClear: "Чатты тазалағыңыз келетініне сенімдісіз бе? Барлық хабарламалар жойылады.",
+                    confirmDeleteChat: "Бұл чатты жою керек пе? Бұл әрекетті болдырмау мүмкін емес.",
+                    sendError: "Хабарламаны жіберу кезінде қате орын алды. Қайталап көріңіз.",
+                    copySuccess: "Мәтін көшірілді",
+                    exampleQuestions: [
+                        "Орхидеяға қалай күтім жасау керек?",
+                        "Фикустың жапырақтары неге сарыға боялады?",
+                        "Раушанға қандай тыңайтқыштар жарасады?",
+                        "Кактустарды қаншалықты жиі суғару керек?"
+                    ],
+                    chat: "Чат",
+                    history: "Чат тарихы",
+                    stats: "Статистика",
+                    interfaceLanguage: "Интерфейс тілі",
+                    serverOverloaded: "Сервер шамадан тыс жүктелген, кейінірек көріңіз"
+                },
+                fr: {
+                    welcomeTitle: "NeuroFlora",
+                    welcomeSubtitle: "Votre assistant IA de jardinage. Posez des questions sur les plantes, les soins, les maladies et les engrais.",
+                    placeholder: "Posez une question sur les plantes...",
+                    typing: "En train d'écrire...",
+                    rateHelpful: "Utile",
+                    rateNotHelpful: "Pas utile",
+                    copy: "Copier",
+                    delete: "Supprimer",
+                    regenerate: "Régénérer",
+                    noHistory: "Aucun historique",
+                    totalQuestions: "Questions totales",
+                    helpfulAnswers: "Réponses utiles",
+                    language: "Langue",
+                    newChat: "Nouveau chat",
+                    clearChat: "Effacer le chat",
+                    settings: "Paramètres",
+                    online: "En ligne",
+                    aiDisclaimer: "Les réponses sont générées par l'intelligence artificielle et peuvent contenir des erreurs. Vérifiez les informations importantes.",
+                    languageChanged: "Langue changée",
+                    chatCleared: "Chat effacé",
+                    confirmClear: "Êtes-vous sûr de vouloir effacer le chat ? Tous les messages seront supprimés.",
+                    confirmDeleteChat: "Supprimer ce chat ? Cette action ne peut pas être annulée.",
+                    sendError: "Erreur lors de l'envoi du message. Veuillez réessayer.",
+                    copySuccess: "Texte copié",
+                    exampleQuestions: [
+                        "Comment entretenir une orchidée ?",
+                        "Pourquoi les feuilles de ficus jaunissent-elles ?",
+                        "Quels engrais conviennent aux roses ?",
+                        "À quelle fréquence arroser les cactus ?"
+                    ],
+                    chat: "Chat",
+                    history: "Historique des chats",
+                    stats: "Statistiques",
+                    interfaceLanguage: "Langue de l'interface",
+                    serverOverloaded: "Serveur surchargé, réessayez plus tard"
+                }
+            };
+
+            const DOM = {
+                elements: {},
+                
+                init: function() {
+                    this.elements = {
+                        sidebar: document.getElementById('sidebar'),
+                        messageInput: document.getElementById('message-input'),
+                        sendButton: document.getElementById('send-button'),
+                        messagesContainer: document.getElementById('messages-container'),
+                        welcomeMessage: document.getElementById('welcome-message'),
+                        historyList: document.getElementById('history-list'),
+                        settingsModal: document.getElementById('settings-modal'),
+                        userAvatar: document.getElementById('user-avatar'),
+                        userName: document.getElementById('user-name'),
+                        sidebarToggle: document.getElementById('sidebar-toggle'),
+                        menuToggle: document.getElementById('menu-toggle'),
+                        newChatBtn: document.getElementById('new-chat-btn'),
+                        clearChatBtn: document.getElementById('clear-chat'),
+                        themeToggle: document.getElementById('theme-toggle'),
+                        settingsBtn: document.getElementById('settings-btn'),
+                        modalClose: document.getElementById('modal-close'),
+                        charCount: document.querySelector('.char-count'),
+                        aiDisclaimer: document.getElementById('ai-disclaimer'),
+                        currentChatTitle: document.getElementById('current-chat-title'),
+                        mobileOverlay: document.getElementById('mobile-overlay'),
+                        chatContainer: document.getElementById('chat-container'),
+                        chatMessages: document.getElementById('chat-messages')
+                    };
+                }
+            };
+
+            const API = {
+                async generateAIResponse(question) {
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), SECURITY_CONFIG.REQUEST_TIMEOUT);
+
+                    try {
+                        const headers = {
+                            "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
+                            "Content-Type": "application/json",
+                            "HTTP-Referer": window.location.origin,
+                            "X-Title": "NeuroFlora"
+                        };
+
+                        const languagePrompts = {
+                            ru: "Отвечай на русском языке.",
+                            en: "Respond in English.",
+                            uk: "Відповідай українською мовою.",
+                            be: "Адказвай на беларускай мове.",
+                            kk: "Қазақ тілінде жауап бер.",
+                            fr: "Répondez en français."
+                        };
+
+                        const prompt = `Ты — опытный садовод. Отвечай на вопросы о растениях четко и структурированно.
+${languagePrompts[state.userSettings.language] || languagePrompts.ru}
+
+Требования:
+1. Отвечай только на вопросы о садоводстве
+2. Будь точным и информативным
+3. Используй списки для структуры
+4. Объем ответа не более 500 слов
+5. Пиши простым, понятным языком
+
+Вопрос: ${sanitizeInput(question)}`;
+
+                        const data = {
+                            model: "openai/gpt-3.5-turbo",
+                            messages: [
+                                {
+                                    role: "system",
+                                    content: "Ты опытный садовод. Отвечай профессионально, но доступно."
+                                },
+                                {
+                                    role: "user",
+                                    content: prompt
+                                }
+                            ],
+                            max_tokens: 1000,
+                            temperature: 0.7
+                        };
+
+                        const response = await fetch(API_URL, {
+                            method: "POST",
+                            headers,
+                            body: JSON.stringify(data),
+                            signal: controller.signal
+                        });
+
+                        clearTimeout(timeoutId);
+
+                        if (!response.ok) {
+                            if (response.status === 403) {
+                                const t = texts[state.userSettings.language];
+                                throw new Error(t.serverOverloaded);
+                            }
+                            throw new Error(`API Error: ${response.status}`);
+                        }
+
+                        const result = await response.json();
+                        const content = result.choices[0].message.content.trim();
+                        
+                        return sanitizeInput(content);
+                    } catch (error) {
+                        clearTimeout(timeoutId);
+                        
+                        if (error.name === 'AbortError') {
+                            throw new Error('Превышено время ожидания ответа');
+                        }
+                        
+                        throw error;
+                    }
+                }
+            };
+
+            const Utils = {
+                debounce: (func, wait) => {
+                    let timeout;
+                    return function executedFunction(...args) {
+                        const later = () => {
+                            clearTimeout(timeout);
+                            func(...args);
+                        };
+                        clearTimeout(timeout);
+                        timeout = setTimeout(later, wait);
+                    };
+                },
+
+                formatTime: (dateString) => {
+                    const date = new Date(dateString);
+                    return date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                },
+
+                autoResizeTextarea: (textarea) => {
+                    textarea.style.height = 'auto';
+                    const maxHeight = 120;
+                    const scrollHeight = textarea.scrollHeight;
+                    textarea.style.height = Math.min(scrollHeight, maxHeight) + 'px';
+                },
+
+                isMobile: () => {
+                    return window.innerWidth <= 768;
+                },
+
+                scrollToBottom: () => {
+                    const chatContainer = DOM.elements.chatContainer;
+                    if (chatContainer) {
+                        requestAnimationFrame(() => {
+                            chatContainer.scrollTop = chatContainer.scrollHeight;
+                        });
+                    }
+                },
+
+                forceScrollToBottom: () => {
+                    const chatContainer = DOM.elements.chatContainer;
+                    if (chatContainer) {
+                        chatContainer.scrollTop = chatContainer.scrollHeight;
+                        setTimeout(() => {
+                            chatContainer.scrollTop = chatContainer.scrollHeight;
+                        }, 50);
+                        setTimeout(() => {
+                            chatContainer.scrollTop = chatContainer.scrollHeight;
+                        }, 200);
+                    }
+                }
+            };
+
+            const App = {
+                init: function() {
+                    DOM.init();
+                    
+                    if (!OPENROUTER_API_KEY) {
+                        console.error('API ключ не расшифрован!');
+                        Telegram.WebApp.showAlert('Ошибка инициализации API. Проверьте конфигурацию.');
+                    }
+                    
+                    state.chats = loadFromStorage('neuroflora_chats', {
+                        default: {
+                            id: 'default',
+                            title: 'Новый чат',
+                            messages: [],
+                            createdAt: new Date().toISOString(),
+                            updatedAt: new Date().toISOString()
+                        }
+                    });
+                    
+                    state.userSettings = loadFromStorage('neuroflora_settings', {
+                        language: Telegram.initDataUnsafe.user?.language_code || 'ru',
+                        theme: 'light',
+                        sidebarHidden: false
+                    });
+                    
+                    state.messageRatings = loadFromStorage('neuroflora_ratings', {});
+                    
+                    this.setupUserProfile();
+                    this.loadCurrentChat();
+                    this.setupEventListeners();
+                    this.updateInterfaceLanguage();
+                    this.updateStatistics();
+                    this.loadHistoryList();
+                    this.updateSidebarState();
+                    this.applyTheme();
+                    this.updateCharCount();
+                    this.handleMobileView();
+                    this.fixScrollIssues();
+                },
+
+                fixScrollIssues: function() {
+                    const chatContainer = DOM.elements.chatContainer;
+                    if (chatContainer) {
+                        chatContainer.style.overflowY = 'auto';
+                        chatContainer.style.WebkitOverflowScrolling = 'touch';
+                        chatContainer.style.flex = '1';
+                        chatContainer.style.minHeight = '0';
+                        chatContainer.style.display = 'flex';
+                        chatContainer.style.flexDirection = 'column';
+                    }
+                    
+                    const chatMessages = DOM.elements.chatMessages;
+                    if (chatMessages) {
+                        chatMessages.style.flex = '1';
+                        chatMessages.style.minHeight = '0';
+                        chatMessages.style.display = 'flex';
+                        chatMessages.style.flexDirection = 'column';
+                    }
+                },
+
+                setupUserProfile: function() {
+                    const user = Telegram.initDataUnsafe.user;
+                    if (user) {
+                        const userName = user.first_name || 'Пользователь';
+                        DOM.elements.userName.textContent = escapeHtml(userName);
+                        
+                        if (user.photo_url) {
+                            DOM.elements.userAvatar.style.backgroundImage = `url('${escapeHtml(user.photo_url)}')`;
+                            DOM.elements.userAvatar.style.backgroundSize = 'cover';
+                            DOM.elements.userAvatar.textContent = '';
+                        } else {
+                            DOM.elements.userAvatar.textContent = userName.charAt(0).toUpperCase();
+                        }
+                    }
+                },
+
+                loadCurrentChat: function() {
+                    const chat = state.chats[state.currentChatId];
+                    
+                    DOM.elements.messagesContainer.innerHTML = '';
+                    
+                    if (chat.messages.length === 0) {
+                        DOM.elements.welcomeMessage.style.display = 'flex';
+                        DOM.elements.welcomeMessage.classList.add('show');
+                    } else {
+                        DOM.elements.welcomeMessage.style.display = 'none';
+                        DOM.elements.welcomeMessage.classList.remove('show');
+                        
+                        chat.messages.forEach(msg => {
+                            this.renderMessage(msg);
+                        });
+                        
+                        setTimeout(() => {
+                            Utils.forceScrollToBottom();
+                        }, 100);
+                    }
+                    
+                    this.updateChatHeader();
+                },
+
+                renderMessage: function(msg) {
+                    if (msg.id === 'welcome') return;
+                    
+                    const t = texts[state.userSettings.language];
+                    const time = Utils.formatTime(msg.timestamp);
+                    const isUserMessage = msg.role === 'user';
+                    const author = isUserMessage 
+                        ? (Telegram.initDataUnsafe.user?.first_name || 'Вы') 
+                        : 'NeuroFlora';
+                    
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = `message ${isUserMessage ? 'user-message' : 'bot-message'}`;
+                    messageDiv.id = `message-${msg.id}`;
+                    
+                    const messageContainer = document.createElement('div');
+                    messageContainer.className = 'message-container';
+                    
+                    const avatar = document.createElement('div');
+                    avatar.className = `message-avatar ${isUserMessage ? 'user-avatar-sm' : 'bot-avatar-sm'}`;
+                    
+                    if (isUserMessage && Telegram.initDataUnsafe.user?.photo_url) {
+                        avatar.style.backgroundImage = `url('${escapeHtml(Telegram.initDataUnsafe.user.photo_url)}')`;
+                        avatar.style.backgroundSize = 'cover';
+                        avatar.textContent = '';
+                    } else if (isUserMessage) {
+                        const userName = Telegram.initDataUnsafe.user?.first_name || 'Вы';
+                        avatar.textContent = userName.charAt(0).toUpperCase();
+                    }
+                    
+                    const contentWrapper = document.createElement('div');
+                    contentWrapper.className = 'message-content-wrapper';
+                    
+                    const header = document.createElement('div');
+                    header.className = 'message-header';
+                    
+                    const authorEl = document.createElement('div');
+                    authorEl.className = 'message-author';
+                    authorEl.textContent = author;
+                    
+                    const timeEl = document.createElement('div');
+                    timeEl.className = 'message-time';
+                    timeEl.textContent = time;
+                    
+                    header.appendChild(authorEl);
+                    header.appendChild(timeEl);
+                    
+                    const content = document.createElement('div');
+                    content.className = 'message-content';
+                    content.textContent = msg.content.trim();
+                    
+                    contentWrapper.appendChild(header);
+                    contentWrapper.appendChild(content);
+                    
+                    if (!isUserMessage) {
+                        const rating = state.messageRatings[msg.id];
+                        const chat = state.chats[state.currentChatId];
+                        const isLastAIMessage = chat.messages[chat.messages.length - 1]?.id === msg.id;
+                        
+                        const actions = document.createElement('div');
+                        actions.className = 'message-actions';
+                        
+                        const likeBtn = document.createElement('button');
+                        likeBtn.className = `action-btn ${rating === 'like' ? 'active' : ''}`;
+                        likeBtn.type = 'button';
+                        likeBtn.innerHTML = DOMPurify.sanitize(`<i class="fas fa-thumbs-up"></i> ${t.rateHelpful}`);
+                        likeBtn.onclick = () => this.rateMessage(msg.id, 'like');
+                        
+                        const dislikeBtn = document.createElement('button');
+                        dislikeBtn.className = `action-btn ${rating === 'dislike' ? 'active' : ''}`;
+                        dislikeBtn.type = 'button';
+                        dislikeBtn.innerHTML = DOMPurify.sanitize(`<i class="fas fa-thumbs-down"></i> ${t.rateNotHelpful}`);
+                        dislikeBtn.onclick = () => this.rateMessage(msg.id, 'dislike');
+                        
+                        const copyBtn = document.createElement('button');
+                        copyBtn.className = 'action-btn';
+                        copyBtn.type = 'button';
+                        copyBtn.innerHTML = DOMPurify.sanitize(`<i class="fas fa-copy"></i> ${t.copy}`);
+                        copyBtn.onclick = () => this.copyMessage(msg.id);
+                        
+                        actions.appendChild(likeBtn);
+                        actions.appendChild(dislikeBtn);
+                        actions.appendChild(copyBtn);
+                        
+                        if (isLastAIMessage) {
+                            const regenerateBtn = document.createElement('button');
+                            regenerateBtn.className = 'action-btn';
+                            regenerateBtn.type = 'button';
+                            regenerateBtn.innerHTML = DOMPurify.sanitize(`<i class="fas fa-redo"></i> ${t.regenerate}`);
+                            regenerateBtn.onclick = () => this.regenerateResponse(msg.id);
+                            actions.appendChild(regenerateBtn);
+                        }
+                        
+                        contentWrapper.appendChild(actions);
+                    }
+                    
+                    messageContainer.appendChild(avatar);
+                    messageContainer.appendChild(contentWrapper);
+                    messageDiv.appendChild(messageContainer);
+                    
+                    DOM.elements.messagesContainer.appendChild(messageDiv);
+                },
+
+                async sendMessage() {
+                    const input = DOM.elements.messageInput;
+                    const text = sanitizeInput(input.value);
+                    
+                    if (!validateMessage(text)) {
+                        Telegram.WebApp.showAlert("Сообщение слишком длинное или содержит недопустимые символы");
+                        return;
+                    }
+                    
+                    const sendButton = DOM.elements.sendButton;
+                    sendButton.disabled = true;
+                    
+                    const userMessage = {
+                        id: Date.now().toString(),
+                        role: 'user',
+                        content: text,
+                        timestamp: new Date().toISOString()
+                    };
+                    
+                    this.addMessageToChat(userMessage);
+                    this.renderMessage(userMessage);
+                    
+                    input.value = '';
+                    this.updateCharCount();
+                    Utils.autoResizeTextarea(input);
+                    
+                    DOM.elements.welcomeMessage.style.display = 'none';
+                    DOM.elements.welcomeMessage.classList.remove('show');
+                    
+                    Utils.forceScrollToBottom();
+                    
+                    this.showTypingIndicator();
+                    
+                    try {
+                        const aiResponse = await API.generateAIResponse(text);
+                        
+                        this.hideTypingIndicator();
+                        
+                        const aiMessage = {
+                            id: Date.now().toString(),
+                            role: 'assistant',
+                            content: aiResponse,
+                            timestamp: new Date().toISOString()
+                        };
+                        
+                        this.addMessageToChat(aiMessage);
+                        this.renderMessage(aiMessage);
+                        
+                        this.updateChatTitle();
+                        this.loadHistoryList();
+                        this.updateStatistics();
+                        
+                        Utils.forceScrollToBottom();
+                        Telegram.HapticFeedback.notificationOccurred('success');
+                    } catch (error) {
+                        this.hideTypingIndicator();
+                        
+                        const t = texts[state.userSettings.language];
+                        const errorMessage = {
+                            id: Date.now().toString(),
+                            role: 'assistant',
+                            content: error.message || t.sendError,
+                            timestamp: new Date().toISOString()
+                        };
+                        
+                        this.addMessageToChat(errorMessage);
+                        this.renderMessage(errorMessage);
+                        Utils.forceScrollToBottom();
+                        Telegram.HapticFeedback.notificationOccurred('error');
+                    } finally {
+                        sendButton.disabled = false;
+                    }
+                },
+
+                async regenerateResponse(messageId) {
+                    const chat = state.chats[state.currentChatId];
+                    const messageIndex = chat.messages.findIndex(m => m.id === messageId);
+                    
+                    if (messageIndex === -1 || chat.messages[messageIndex].role !== 'assistant') return;
+                    
+                    const userMessage = chat.messages[messageIndex - 1];
+                    if (!userMessage || userMessage.role !== 'user') return;
+                    
+                    chat.messages.splice(messageIndex, 1);
+                    this.saveChats();
+                    
+                    this.loadCurrentChat();
+                    
+                    this.showTypingIndicator();
+                    
+                    try {
+                        const aiResponse = await API.generateAIResponse(userMessage.content);
+                        
+                        this.hideTypingIndicator();
+                        
+                        const aiMessage = {
+                            id: Date.now().toString(),
+                            role: 'assistant',
+                            content: aiResponse,
+                            timestamp: new Date().toISOString()
+                        };
+                        
+                        this.addMessageToChat(aiMessage);
+                        this.renderMessage(aiMessage);
+                        
+                        this.updateStatistics();
+                        Utils.forceScrollToBottom();
+                        Telegram.HapticFeedback.notificationOccurred('success');
+                    } catch (error) {
+                        this.hideTypingIndicator();
+                        
+                        const t = texts[state.userSettings.language];
+                        const errorMessage = {
+                            id: Date.now().toString(),
+                            role: 'assistant',
+                            content: error.message || t.sendError,
+                            timestamp: new Date().toISOString()
+                        };
+                        
+                        this.addMessageToChat(errorMessage);
+                        this.renderMessage(errorMessage);
+                        Utils.forceScrollToBottom();
+                        Telegram.HapticFeedback.notificationOccurred('error');
+                    }
+                },
+
+                addMessageToChat: function(message) {
+                    const chat = state.chats[state.currentChatId];
+                    message.content = message.content.trim();
+                    chat.messages.push(message);
+                    chat.updatedAt = new Date().toISOString();
+                    this.saveChats();
+                },
+
+                updateChatTitle: function() {
+                    const chat = state.chats[state.currentChatId];
+                    const lastUserMessage = chat.messages.find(m => m.role === 'user');
+                    if (lastUserMessage && lastUserMessage.content) {
+                        const title = lastUserMessage.content.substring(0, 50) + (lastUserMessage.content.length > 50 ? '...' : '');
+                        const t = texts[state.userSettings.language];
+                        if (chat.title === 'Новый чат' || chat.title === t.newChat) {
+                            chat.title = title;
+                            this.saveChats();
+                            this.updateChatHeader();
+                        }
+                    }
+                },
+
+                updateChatHeader: function() {
+                    const chat = state.chats[state.currentChatId];
+                    if (chat && chat.title) {
+                        DOM.elements.currentChatTitle.textContent = chat.title;
+                    } else {
+                        DOM.elements.currentChatTitle.textContent = 'NeuroFlora';
+                    }
+                },
+
+                showTypingIndicator: function() {
+                    const t = texts[state.userSettings.language];
+                    
+                    const typingDiv = document.createElement('div');
+                    typingDiv.className = 'typing-indicator';
+                    typingDiv.id = 'typing-indicator';
+                    
+                    typingDiv.innerHTML = DOMPurify.sanitize(`
+                        <div class="bot-avatar-sm" style="background-image: url('https://i.postimg.cc/SxdqDwpy/Bez-nazvania54-20251214232638.png')"></div>
+                        <div class="typing-dots">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <div>${t.typing}</div>
+                    `);
+                    
+                    DOM.elements.messagesContainer.appendChild(typingDiv);
+                    Utils.forceScrollToBottom();
+                },
+
+                hideTypingIndicator: function() {
+                    const indicator = document.getElementById('typing-indicator');
+                    if (indicator) {
+                        indicator.remove();
+                    }
+                },
+
+                rateMessage: function(messageId, rating) {
+                    state.messageRatings[messageId] = rating;
+                    saveToStorage('neuroflora_ratings', state.messageRatings);
+                    
+                    const messageDiv = document.getElementById(`message-${messageId}`);
+                    if (messageDiv) {
+                        const likeBtn = messageDiv.querySelector('.action-btn:nth-child(1)');
+                        const dislikeBtn = messageDiv.querySelector('.action-btn:nth-child(2)');
+                        
+                        if (likeBtn) likeBtn.classList.toggle('active', rating === 'like');
+                        if (dislikeBtn) dislikeBtn.classList.toggle('active', rating === 'dislike');
+                    }
+                    
+                    this.updateStatistics();
+                },
+
+                copyMessage: function(messageId) {
+                    const messageDiv = document.getElementById(`message-${messageId}`);
+                    if (messageDiv) {
+                        const text = messageDiv.querySelector('.message-content').textContent;
+                        navigator.clipboard.writeText(text).then(() => {
+                            const t = texts[state.userSettings.language];
+                            Telegram.WebApp.showAlert(t.copySuccess);
+                        }).catch(err => {
+                            Telegram.WebApp.showAlert('Не удалось скопировать');
+                        });
+                    }
+                },
+
+                createNewChat: function() {
+                    const chatId = Date.now().toString();
+                    const t = texts[state.userSettings.language];
+                    const newChat = {
+                        id: chatId,
+                        title: t.newChat,
+                        messages: [],
+                        createdAt: new Date().toISOString(),
+                        updatedAt: new Date().toISOString()
+                    };
+                    
+                    state.chats[chatId] = newChat;
+                    state.currentChatId = chatId;
+                    this.saveChats();
+                    
+                    this.loadCurrentChat();
+                    this.loadHistoryList();
+                    
+                    Telegram.HapticFeedback.selectionChanged();
+                    
+                    if (Utils.isMobile()) {
+                        this.closeSidebar();
+                    }
+                },
+
+                clearCurrentChat: function() {
+                    const t = texts[state.userSettings.language];
+                    if (confirm(t.confirmClear)) {
+                        const chat = state.chats[state.currentChatId];
+                        chat.messages = [];
+                        chat.updatedAt = new Date().toISOString();
+                        this.saveChats();
+                        
+                        this.loadCurrentChat();
+                        this.updateStatistics();
+                        Telegram.WebApp.showAlert(t.chatCleared);
+                    }
+                },
+
+                deleteChat: function(chatId, event) {
+                    if (event) {
+                        event.stopPropagation();
+                    }
+                    
+                    const t = texts[state.userSettings.language];
+                    if (!confirm(t.confirmDeleteChat)) {
+                        return;
+                    }
+                    
+                    if (chatId === state.currentChatId) {
+                        state.currentChatId = 'default';
+                        if (!state.chats['default']) {
+                            const t = texts[state.userSettings.language];
+                            state.chats['default'] = {
+                                id: 'default',
+                                title: t.newChat,
+                                messages: [],
+                                createdAt: new Date().toISOString(),
+                                updatedAt: new Date().toISOString()
+                            };
+                        }
+                        this.loadCurrentChat();
+                    }
+                    
+                    delete state.chats[chatId];
+                    this.saveChats();
+                    this.loadHistoryList();
+                    this.updateStatistics();
+                },
+
+                loadHistoryList: function() {
+                    const container = DOM.elements.historyList;
+                    const chatIds = Object.keys(state.chats);
+                    
+                    if (chatIds.length === 0 || (chatIds.length === 1 && chatIds[0] === 'default' && state.chats['default'].messages.length === 0)) {
+                        const t = texts[state.userSettings.language];
+                        container.innerHTML = DOMPurify.sanitize(`
+                            <div style="padding: 40px 20px; text-align: center; color: var(--text-tertiary);">
+                                <i class="fas fa-history" style="font-size: 32px; margin-bottom: 12px; opacity: 0.5;"></i>
+                                <div>${t.noHistory}</div>
+                            </div>
+                        `);
+                        return;
+                    }
+                    
+                    const sortedChats = chatIds
+                        .map(id => state.chats[id])
+                        .filter(chat => chat.messages.length > 0 || chat.id === state.currentChatId)
+                        .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+                    
+                    container.innerHTML = '';
+                    
+                    sortedChats.forEach(chat => {
+                        const lastMessage = chat.messages[chat.messages.length - 1];
+                        let preview;
+                        if (lastMessage) {
+                            const cleanContent = lastMessage.content.trim();
+                            preview = cleanContent.substring(0, 50) + (cleanContent.length > 50 ? '...' : '');
+                        } else {
+                            const t = texts[state.userSettings.language];
+                            preview = t.newChat;
+                        }
+                        
+                        const time = new Date(chat.updatedAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                        
+                        const historyItem = document.createElement('div');
+                        historyItem.className = `history-item ${chat.id === state.currentChatId ? 'active' : ''}`;
+                        
+                        const historyPreview = document.createElement('div');
+                        historyPreview.className = 'history-preview';
+                        
+                        const historyText = document.createElement('div');
+                        historyText.className = 'history-text';
+                        historyText.textContent = preview;
+                        
+                        const historyTime = document.createElement('div');
+                        historyTime.className = 'history-time';
+                        historyTime.textContent = time;
+                        
+                        historyPreview.appendChild(historyText);
+                        historyPreview.appendChild(historyTime);
+                        
+                        const deleteBtn = document.createElement('button');
+                        deleteBtn.className = 'history-delete-btn';
+                        deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
+                        deleteBtn.onclick = (e) => {
+                            e.stopPropagation();
+                            this.deleteChat(chat.id, e);
+                        };
+                        
+                        historyItem.appendChild(historyPreview);
+                        historyItem.appendChild(deleteBtn);
+                        
+                        historyItem.onclick = () => {
+                            this.switchChat(chat.id);
+                        };
+                        
+                        container.appendChild(historyItem);
+                    });
+                },
+
+                switchChat: function(chatId) {
+                    state.currentChatId = chatId;
+                    this.loadCurrentChat();
+                    this.loadHistoryList();
+                    
+                    if (Utils.isMobile()) {
+                        this.closeSidebar();
+                    }
+                },
+
+                updateInterfaceLanguage: function() {
+                    const lang = state.userSettings.language;
+                    const t = texts[lang];
+                    
+                    DOM.elements.messageInput.placeholder = t.placeholder;
+                    
+                    document.getElementById('new-chat-text').textContent = t.newChat;
+                    document.getElementById('chat-tab-text').textContent = t.chat;
+                    document.getElementById('settings-tab-text').textContent = t.settings;
+                    document.getElementById('history-title-text').textContent = t.history;
+                    document.getElementById('user-status-text').textContent = t.online;
+                    
+                    document.getElementById('welcome-title').textContent = t.welcomeTitle;
+                    document.getElementById('welcome-subtitle').textContent = t.welcomeSubtitle;
+                    
+                    const exampleCards = document.querySelectorAll('.example-card');
+                    const exampleQuestions = t.exampleQuestions || [];
+                    
+                    exampleCards.forEach((card, index) => {
+                        const textDiv = card.querySelector('.example-text');
+                        if (textDiv && exampleQuestions[index]) {
+                            textDiv.textContent = exampleQuestions[index];
+                            card.dataset.question = exampleQuestions[index];
+                        }
+                    });
+                    
+                    document.getElementById('ai-disclaimer').textContent = t.aiDisclaimer;
+                    
+                    document.getElementById('modal-title-text').textContent = t.settings;
+                    document.getElementById('stats-title-text').textContent = t.stats;
+                    document.getElementById('total-questions-text').textContent = t.totalQuestions;
+                    document.getElementById('helpful-answers-text').textContent = t.helpfulAnswers;
+                    document.getElementById('language-text').textContent = t.language;
+                    document.getElementById('interface-language-text').textContent = t.interfaceLanguage;
+                    
+                    document.querySelectorAll('.language-option').forEach(opt => {
+                        opt.classList.toggle('active', opt.dataset.lang === lang);
+                    });
+                },
+
+                updateStatistics: function() {
+                    const chat = state.chats[state.currentChatId];
+                    const totalQuestions = chat.messages.filter(m => m.role === 'user').length;
+                    
+                    const ratedMessages = Object.values(state.messageRatings);
+                    const helpfulCount = ratedMessages.filter(r => r === 'like').length;
+                    const helpfulPercentage = ratedMessages.length > 0 ? 
+                        Math.round((helpfulCount / ratedMessages.length) * 100) : 0;
+                    
+                    document.getElementById('stat-total').textContent = totalQuestions;
+                    document.getElementById('stat-helpful').textContent = `${helpfulPercentage}%`;
+                    document.getElementById('stat-language').textContent = state.userSettings.language.toUpperCase();
+                },
+
+                toggleTheme: function() {
+                    const isDark = document.body.classList.toggle('dark-theme');
+                    state.userSettings.theme = isDark ? 'dark' : 'light';
+                    this.saveSettings();
+                    
+                    const themeIcon = document.getElementById('theme-toggle').querySelector('i');
+                    themeIcon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+                },
+
+                toggleSidebar: function() {
+                    if (Utils.isMobile()) {
+                        const isActive = DOM.elements.sidebar.classList.toggle('active');
+                        DOM.elements.mobileOverlay.classList.toggle('active', isActive);
+                        document.body.classList.toggle('no-scroll', isActive);
+                    } else {
+                        const isHidden = DOM.elements.sidebar.classList.toggle('hidden');
+                        state.userSettings.sidebarHidden = isHidden;
+                        this.saveSettings();
+                        
+                        const toggleIcon = DOM.elements.sidebarToggle.querySelector('i');
+                        toggleIcon.className = isHidden ? 'fas fa-chevron-left' : 'fas fa-chevron-right';
+                    }
+                },
+
+                closeSidebar: function() {
+                    if (Utils.isMobile()) {
+                        DOM.elements.sidebar.classList.remove('active');
+                        DOM.elements.mobileOverlay.classList.remove('active');
+                        document.body.classList.remove('no-scroll');
+                    }
+                },
+
+                updateSidebarState: function() {
+                    if (!Utils.isMobile()) {
+                        const sidebar = DOM.elements.sidebar;
+                        const toggleIcon = DOM.elements.sidebarToggle.querySelector('i');
+                        
+                        if (state.userSettings.sidebarHidden) {
+                            sidebar.classList.add('hidden');
+                            toggleIcon.className = 'fas fa-chevron-left';
+                        } else {
+                            sidebar.classList.remove('hidden');
+                            toggleIcon.className = 'fas fa-chevron-right';
+                        }
+                    }
+                },
+
+                applyTheme: function() {
+                    if (state.userSettings.theme === 'dark') {
+                        document.body.classList.add('dark-theme');
+                        const themeIcon = document.getElementById('theme-toggle').querySelector('i');
+                        themeIcon.className = 'fas fa-sun';
+                    }
+                },
+
+                handleMobileView: function() {
+                    if (Utils.isMobile()) {
+                        DOM.elements.sidebar.classList.remove('hidden');
+                        DOM.elements.sidebar.classList.add('active');
+                        setTimeout(() => {
+                            this.closeSidebar();
+                        }, 100);
+                    }
+                },
+
+                updateCharCount: function() {
+                    const input = DOM.elements.messageInput;
+                    const charCount = DOM.elements.charCount;
+                    if (charCount) {
+                        charCount.textContent = `${input.value.length}/2000`;
+                    }
+                },
+
+                saveChats: function() {
+                    cleanHistory();
+                    saveToStorage('neuroflora_chats', state.chats);
+                },
+
+                saveSettings: function() {
+                    saveToStorage('neuroflora_settings', state.userSettings);
+                },
+
+                setupEventListeners: function() {
+                    DOM.elements.sendButton.addEventListener('click', () => this.sendMessage());
+                    
+                    DOM.elements.messageInput.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter' && !e.shiftKey) {
+                            e.preventDefault();
+                            this.sendMessage();
+                        }
+                    });
+                    
+                    const debouncedResize = Utils.debounce(() => {
+                        Utils.autoResizeTextarea(DOM.elements.messageInput);
+                    }, SECURITY_CONFIG.DEBOUNCE_DELAY);
+                    
+                    DOM.elements.messageInput.addEventListener('input', () => {
+                        this.updateCharCount();
+                        debouncedResize();
+                    });
+                    
+                    DOM.elements.newChatBtn.addEventListener('click', () => this.createNewChat());
+                    
+                    DOM.elements.clearChatBtn.addEventListener('click', () => this.clearCurrentChat());
+                    
+                    DOM.elements.themeToggle.addEventListener('click', () => this.toggleTheme());
+                    
+                    DOM.elements.menuToggle.addEventListener('click', () => this.toggleSidebar());
+                    
+                    DOM.elements.sidebarToggle.addEventListener('click', () => this.toggleSidebar());
+                    
+                    DOM.elements.mobileOverlay.addEventListener('click', () => this.closeSidebar());
+                    
+                    document.querySelectorAll('.nav-item').forEach(item => {
+                        item.addEventListener('click', () => {
+                            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                            item.classList.add('active');
+                            
+                            if (Utils.isMobile()) {
+                                this.closeSidebar();
+                            }
+                        });
+                    });
+                    
+                    DOM.elements.settingsBtn.addEventListener('click', () => {
+                        DOM.elements.settingsModal.classList.add('active');
+                        this.updateStatistics();
+                        Telegram.BackButton.show();
+                        if (Utils.isMobile()) {
+                            this.closeSidebar();
+                        }
+                    });
+                    
+                    Telegram.BackButton.onClick(() => {
+                        DOM.elements.settingsModal.classList.remove('active');
+                        Telegram.BackButton.hide();
+                    });
+                    
+                    DOM.elements.modalClose.addEventListener('click', () => {
+                        DOM.elements.settingsModal.classList.remove('active');
+                        Telegram.BackButton.hide();
+                    });
+                    
+                    DOM.elements.settingsModal.addEventListener('click', (e) => {
+                        if (e.target === DOM.elements.settingsModal) {
+                            DOM.elements.settingsModal.classList.remove('active');
+                            Telegram.BackButton.hide();
+                        }
+                    });
+                    
+                    document.querySelectorAll('.language-option').forEach(option => {
+                        option.addEventListener('click', () => {
+                            const lang = option.dataset.lang;
+                            
+                            state.userSettings.language = lang;
+                            this.saveSettings();
+                            this.updateInterfaceLanguage();
+                            this.updateStatistics();
+                            
+                            const t = texts[lang];
+                            Telegram.WebApp.showAlert(t.languageChanged);
+                        });
+                    });
+                    
+                    document.querySelectorAll('.example-card').forEach(card => {
+                        card.addEventListener('click', () => {
+                            const question = card.dataset.question;
+                            DOM.elements.messageInput.value = question;
+                            Utils.autoResizeTextarea(DOM.elements.messageInput);
+                            this.updateCharCount();
+                            
+                            setTimeout(() => {
+                                DOM.elements.messageInput.focus();
+                            }, 100);
+                        });
+                    });
+                    
+                    let touchStartX = 0;
+                    
+                    document.addEventListener('touchstart', (e) => {
+                        touchStartX = e.changedTouches[0].screenX;
+                    }, { passive: true });
+                    
+                    document.addEventListener('touchend', (e) => {
+                        const touchEndX = e.changedTouches[0].screenX;
+                        const diff = touchStartX - touchEndX;
+                        
+                        if (Math.abs(diff) > 50 && touchStartX > window.innerWidth * 0.7) {
+                            this.closeSidebar();
+                        }
+                    }, { passive: true });
+                    
+                    window.addEventListener('resize', () => {
+                        this.handleMobileView();
+                        if (window.innerWidth > 768) {
+                            this.closeSidebar();
+                        }
+                    });
+                    
+                    window.addEventListener('orientationchange', () => {
+                        setTimeout(() => {
+                            this.handleMobileView();
+                        }, 300);
+                    });
+                    
+                    DOM.elements.chatContainer.addEventListener('scroll', () => {
+                        this.checkScrollPosition();
+                    });
+                },
+
+                checkScrollPosition: function() {
+                    const container = DOM.elements.chatContainer;
+                    if (container) {
+                        const isAtBottom = container.scrollHeight - container.scrollTop - container.clientHeight < 10;
+                        
+                        if (isAtBottom) {
+                            container.classList.remove('scroll-lock');
+                        } else {
+                            container.classList.add('scroll-lock');
+                        }
+                    }
+                }
+            };
+
+            document.addEventListener('DOMContentLoaded', () => App.init());
+        })();
+    </script>
+</body>
+</html>
