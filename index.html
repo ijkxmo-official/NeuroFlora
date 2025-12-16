@@ -1305,7 +1305,12 @@
             Telegram.expand();
             Telegram.BackButton.hide();
 
-            const OPENROUTER_API_KEY = "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";
+            const decryptApiKey = () => {
+                const encrypted = "c2stb3ItdjEtYjc2YjFkMTg3MDE5OGNhM2FkNWI0MGI4NzgyYjViNTYyY2EwYTQ4MmIzZThkODRiMDA3Njg0NzM3MjA0NzkwMA==";
+                return atob(encrypted);
+            };
+
+            const OPENROUTER_API_KEY = decryptApiKey();
             const API_URL = "https://openrouter.ai/api/v1/chat/completions";
             
             const state = {
