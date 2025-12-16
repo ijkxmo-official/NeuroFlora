@@ -45,27 +45,20 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        html {
-            font-size: 16px;
-        }
-
-        body {
+        html, body {
+            height: 100%;
+            overflow: hidden;
             font-family: var(--font-family);
             background: var(--bg-primary);
             color: var(--text-primary);
-            line-height: 1.5;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            height: 100vh;
-            height: -webkit-fill-available;
-            overflow: hidden;
         }
 
         .app-container {
             display: flex;
             height: 100vh;
             height: -webkit-fill-available;
-            position: relative;
             overflow: hidden;
         }
 
@@ -77,7 +70,7 @@
             flex-direction: column;
             transition: transform var(--transition);
             z-index: 1000;
-            height: 100%;
+            height: 100vh;
             position: fixed;
             top: 0;
             left: 0;
@@ -121,8 +114,6 @@
         .sidebar-header {
             padding: 20px;
             border-bottom: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
             flex-shrink: 0;
         }
 
@@ -192,7 +183,6 @@
             justify-content: center;
             gap: 10px;
             margin: 12px 0;
-            flex-shrink: 0;
         }
 
         .new-chat-btn:hover {
@@ -202,6 +192,7 @@
 
         .sidebar-nav {
             padding: 12px 0;
+            border-bottom: 1px solid var(--border);
             flex-shrink: 0;
         }
 
@@ -215,7 +206,6 @@
             transition: var(--transition);
             margin: 0 12px;
             border-radius: var(--radius-md);
-            text-decoration: none;
         }
 
         .nav-item:hover {
@@ -233,14 +223,12 @@
             width: 20px;
             text-align: center;
             font-size: 18px;
-            flex-shrink: 0;
         }
 
         .history-section {
             flex: 1;
             overflow-y: auto;
             padding: 0 12px 20px;
-            -webkit-overflow-scrolling: touch;
         }
 
         .history-title {
@@ -272,8 +260,6 @@
             gap: 12px;
             border: 1px solid transparent;
             position: relative;
-            text-decoration: none;
-            user-select: none;
         }
 
         .history-item:hover {
@@ -329,7 +315,6 @@
             justify-content: center;
             opacity: 0;
             transition: var(--transition);
-            flex-shrink: 0;
         }
 
         .history-delete-btn:hover {
@@ -341,8 +326,7 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            min-height: 0;
-            background: var(--bg-primary);
+            height: 100vh;
             width: 100%;
             margin-left: 0;
             transition: margin-left var(--transition);
@@ -361,8 +345,6 @@
             align-items: center;
             justify-content: space-between;
             background: var(--bg-primary);
-            position: sticky;
-            top: 0;
             z-index: 100;
             flex-shrink: 0;
             min-height: 64px;
@@ -386,7 +368,6 @@
             padding: 8px;
             border-radius: var(--radius-sm);
             transition: var(--transition);
-            flex-shrink: 0;
         }
 
         .menu-toggle:hover {
@@ -422,7 +403,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-shrink: 0;
         }
 
         .header-btn:hover {
@@ -432,30 +412,18 @@
 
         .chat-area {
             flex: 1;
-            min-height: 0;
-            overflow: hidden;
             display: flex;
             flex-direction: column;
+            min-height: 0;
             position: relative;
         }
 
         .chat-container {
             flex: 1;
-            min-height: 0;
             overflow-y: auto;
             padding: 20px;
             padding-bottom: 140px;
-            -webkit-overflow-scrolling: touch;
             scroll-behavior: smooth;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .messages-wrapper {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            min-height: 0;
         }
 
         .welcome-message {
@@ -468,7 +436,6 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            flex: 1;
         }
 
         .welcome-message.show {
@@ -497,7 +464,6 @@
             background-clip: text;
             color: transparent;
             letter-spacing: -0.5px;
-            line-height: 1.2;
         }
 
         .welcome-subtitle {
@@ -506,8 +472,6 @@
             margin-bottom: 32px;
             line-height: 1.5;
             max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
         }
 
         .example-questions {
@@ -527,7 +491,6 @@
             cursor: pointer;
             transition: var(--transition);
             text-align: left;
-            user-select: none;
         }
 
         .example-card:hover {
@@ -546,7 +509,6 @@
             display: flex;
             margin-bottom: 16px;
             max-width: 100%;
-            width: 100%;
             animation: fadeIn 0.3s ease-out;
         }
 
@@ -623,8 +585,6 @@
             word-wrap: break-word;
             font-size: 15px;
             border: 1px solid transparent;
-            overflow-wrap: break-word;
-            max-width: 100%;
         }
 
         .user-message .message-content {
@@ -659,8 +619,6 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            flex-shrink: 0;
-            min-height: 36px;
         }
 
         .action-btn:hover {
@@ -745,9 +703,6 @@
             min-height: 52px;
             line-height: 1.5;
             transition: var(--transition);
-            white-space: pre-wrap;
-            overflow-wrap: break-word;
-            -webkit-appearance: none;
         }
 
         .input-field:focus {
@@ -769,7 +724,6 @@
             color: white;
             cursor: pointer;
             transition: var(--transition);
-            flex-shrink: 0;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -850,12 +804,11 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            background: var(--bg-primary);
             position: sticky;
             top: 0;
             z-index: 1;
             border-radius: var(--radius) var(--radius) 0 0;
-            flex-shrink: 0;
         }
 
         .modal-title {
@@ -879,7 +832,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-shrink: 0;
         }
 
         .modal-close:hover {
@@ -918,10 +870,6 @@
             text-align: center;
             border: 1px solid var(--border);
             transition: var(--transition);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            min-height: 90px;
         }
 
         .stat-card:hover {
@@ -941,7 +889,6 @@
             font-size: 13px;
             color: var(--text-secondary);
             font-weight: 500;
-            line-height: 1.2;
         }
 
         .language-grid {
@@ -963,7 +910,6 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            min-height: 56px;
         }
 
         .language-option:hover {
@@ -977,12 +923,7 @@
             color: var(--primary);
         }
 
-        .language-option.active .checkmark {
-            display: block;
-        }
-
         .checkmark {
-            display: none;
             color: var(--primary);
             font-size: 14px;
         }
@@ -1003,10 +944,6 @@
         }
 
         @media (max-width: 768px) {
-            html {
-                font-size: 15px;
-            }
-
             .sidebar {
                 width: 100%;
                 max-width: 320px;
@@ -1064,25 +1001,12 @@
                 padding: 16px;
             }
 
-            .message {
-                margin-bottom: 20px;
-            }
-
             .message-container {
                 max-width: 90%;
             }
 
             .message-content {
                 padding: 14px;
-            }
-
-            .message-actions {
-                gap: 6px;
-            }
-
-            .action-btn {
-                padding: 6px 10px;
-                font-size: 12px;
             }
 
             .stats-grid {
@@ -1092,15 +1016,10 @@
 
             .stat-card {
                 padding: 12px;
-                min-height: 80px;
             }
 
             .stat-value {
                 font-size: 22px;
-            }
-
-            .stat-label {
-                font-size: 12px;
             }
 
             .language-grid {
@@ -1111,7 +1030,6 @@
             .language-option {
                 padding: 14px 12px;
                 font-size: 14px;
-                min-height: 52px;
             }
 
             .history-delete-btn {
@@ -1121,21 +1039,9 @@
             .sidebar:not(.hidden) ~ .main-content {
                 margin-left: 0;
             }
-
-            .modal-content {
-                padding: 20px;
-            }
-
-            .modal-header {
-                padding: 20px;
-            }
         }
 
         @media (max-width: 480px) {
-            html {
-                font-size: 14px;
-            }
-
             .stats-grid {
                 grid-template-columns: 1fr;
             }
@@ -1144,18 +1050,9 @@
                 grid-template-columns: 1fr;
             }
 
-            .message-header {
-                gap: 10px;
-            }
-
             .message-avatar {
                 width: 32px;
                 height: 32px;
-                font-size: 14px;
-            }
-
-            .input-area {
-                gap: 10px;
             }
 
             .input-field {
@@ -1188,32 +1085,6 @@
             }
         }
 
-        @media (max-height: 600px) {
-            .welcome-message {
-                padding: 20px 16px;
-            }
-
-            .welcome-icon {
-                width: 60px;
-                height: 60px;
-                margin-bottom: 16px;
-            }
-
-            .welcome-title {
-                font-size: 22px;
-                margin-bottom: 12px;
-            }
-
-            .welcome-subtitle {
-                font-size: 14px;
-                margin-bottom: 20px;
-            }
-
-            .example-questions {
-                margin-top: 20px;
-            }
-        }
-
         .dark-theme {
             --primary: #10a37f;
             --primary-light: rgba(16, 163, 127, 0.15);
@@ -1233,25 +1104,6 @@
             --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.3);
         }
 
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--bg-secondary);
-            border-radius: 3px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--text-tertiary);
-            border-radius: 3px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--text-secondary);
-        }
-
         .mobile-overlay {
             display: none;
             position: fixed;
@@ -1261,15 +1113,10 @@
             bottom: 0;
             background: rgba(0, 0, 0, 0.5);
             z-index: 999;
-            backdrop-filter: blur(2px);
         }
 
         .mobile-overlay.active {
             display: block;
-        }
-
-        .no-scroll {
-            overflow: hidden;
         }
     </style>
 </head>
@@ -1290,7 +1137,6 @@
                         </div>
                     </div>
                 </div>
-                
                 <button class="new-chat-btn" id="new-chat-btn">
                     <i class="fas fa-plus"></i>
                     <span id="new-chat-text">Новый чат</span>
@@ -1326,7 +1172,6 @@
                     </button>
                     <div class="chat-title" id="current-chat-title">NeuroFlora</div>
                 </div>
-                
                 <div class="header-actions">
                     <button class="header-btn" id="theme-toggle">
                         <i class="fas fa-moon"></i>
@@ -1339,52 +1184,40 @@
 
             <div class="chat-area">
                 <div class="chat-container" id="chat-container">
-                    <div class="messages-wrapper" id="messages-wrapper">
-                        <div class="welcome-message" id="welcome-message">
-                            <div class="welcome-icon"></div>
-                            <h1 class="welcome-title" id="welcome-title">NeuroFlora</h1>
-                            <p class="welcome-subtitle" id="welcome-subtitle">
-                                Ваш AI-помощник по садоводству. Задавайте вопросы о растениях,<br>
-                                уходе за ними, болезнях и удобрениях.
-                            </p>
-                            
-                            <div class="example-questions" id="example-questions">
-                                <div class="example-card" data-question="Как ухаживать за орхидеей?">
-                                    <div class="example-text">Как ухаживать за орхидеей?</div>
-                                </div>
-                                <div class="example-card" data-question="Почему желтеют листья у фикуса?">
-                                    <div class="example-text">Почему желтеют листья у фикуса?</div>
-                                </div>
-                                <div class="example-card" data-question="Какие удобрения подходят для роз?">
-                                    <div class="example-text">Какие удобрения подходят для роз?</div>
-                                </div>
-                                <div class="example-card" data-question="Как часто поливать кактусы?">
-                                    <div class="example-text">Как часто поливать кактусы?</div>
-                                </div>
+                    <div class="welcome-message" id="welcome-message">
+                        <div class="welcome-icon"></div>
+                        <h1 class="welcome-title" id="welcome-title">NeuroFlora</h1>
+                        <p class="welcome-subtitle" id="welcome-subtitle">
+                            Ваш AI-помощник по садоводству. Задавайте вопросы о растениях,<br>
+                            уходе за ними, болезнях и удобрениях.
+                        </p>
+                        <div class="example-questions" id="example-questions">
+                            <div class="example-card" data-question="Как ухаживать за орхидеей?">
+                                <div class="example-text">Как ухаживать за орхидеей?</div>
+                            </div>
+                            <div class="example-card" data-question="Почему желтеют листья у фикуса?">
+                                <div class="example-text">Почему желтеют листья у фикуса?</div>
+                            </div>
+                            <div class="example-card" data-question="Какие удобрения подходят для роз?">
+                                <div class="example-text">Какие удобрения подходят для роз?</div>
+                            </div>
+                            <div class="example-card" data-question="Как часто поливать кактусы?">
+                                <div class="example-text">Как часто поливать кактусы?</div>
                             </div>
                         </div>
-
-                        <div id="messages-container"></div>
                     </div>
+                    <div id="messages-container"></div>
                 </div>
             </div>
 
             <div class="input-container">
                 <div class="input-wrapper">
                     <div class="input-area">
-                        <textarea 
-                            class="input-field" 
-                            id="message-input" 
-                            placeholder="Задайте вопрос о растениях..." 
-                            rows="1"
-                            maxlength="2000"
-                        ></textarea>
-                        
+                        <textarea class="input-field" id="message-input" placeholder="Задайте вопрос о растениях..." rows="1" maxlength="2000"></textarea>
                         <button class="send-button" id="send-button">
                             <i class="fas fa-paper-plane"></i>
                         </button>
                     </div>
-                    
                     <div class="input-footer">
                         <div class="char-count">0/2000</div>
                         <div>NeuroFlora AI</div>
@@ -1407,7 +1240,6 @@
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
-                
                 <div class="modal-content">
                     <div class="settings-section">
                         <div class="section-title">
@@ -1429,7 +1261,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="settings-section">
                         <div class="section-title">
                             <i class="fas fa-language"></i>
@@ -1469,34 +1300,14 @@
 
     <script>
         'use strict';
-
         (function() {
             const Telegram = window.Telegram.WebApp;
             Telegram.expand();
             Telegram.BackButton.hide();
 
-            const ENCRYPTED_API_KEY = "c2stb3ItdjEtNzljNTllNzQ0NWNhZGE1NDQ1MTg3NjZjYjc2ZWM2YTNiYzhhNDBiYzVjMGQ2YmVmOGRhOGYxMDdmYTNlYzVjYw==";
-            
-            const decryptApiKey = (encrypted) => {
-                try {
-                    return atob(encrypted);
-                } catch (e) {
-                    console.error('Ошибка расшифровки API ключа:', e);
-                    return '';
-                }
-            };
-            
-            const OPENROUTER_API_KEY = decryptApiKey(ENCRYPTED_API_KEY);
+            const OPENROUTER_API_KEY = "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";
             const API_URL = "https://openrouter.ai/api/v1/chat/completions";
             
-            const SECURITY_CONFIG = {
-                MAX_MESSAGE_LENGTH: 2000,
-                MAX_HISTORY_ITEMS: 50,
-                MAX_MESSAGES_PER_CHAT: 100,
-                REQUEST_TIMEOUT: 30000,
-                DEBOUNCE_DELAY: 300
-            };
-
             const state = {
                 currentChatId: 'default',
                 chats: {},
@@ -1505,18 +1316,14 @@
                     theme: 'light',
                     sidebarHidden: false
                 },
-                messageRatings: {},
-                rateLimits: {
-                    lastRequest: 0,
-                    requestCount: 0
-                }
+                messageRatings: {}
             };
 
             const loadFromStorage = (key, defaultValue) => {
                 try {
                     const item = localStorage.getItem(key);
                     return item ? JSON.parse(item) : defaultValue;
-                } catch (e) {
+                } catch {
                     return defaultValue;
                 }
             };
@@ -1526,30 +1333,13 @@
                     localStorage.setItem(key, JSON.stringify(data));
                 } catch (e) {
                     if (e.name === 'QuotaExceededError') {
-                        cleanHistory();
+                        Object.keys(state.chats).forEach(id => {
+                            if (state.chats[id].messages.length > 100) {
+                                state.chats[id].messages = state.chats[id].messages.slice(-100);
+                            }
+                        });
                         localStorage.setItem(key, JSON.stringify(data));
                     }
-                }
-            };
-
-            const cleanHistory = () => {
-                Object.values(state.chats).forEach(chat => {
-                    if (chat.messages.length > SECURITY_CONFIG.MAX_MESSAGES_PER_CHAT) {
-                        chat.messages = chat.messages.slice(-SECURITY_CONFIG.MAX_MESSAGES_PER_CHAT);
-                    }
-                });
-                
-                const chatIds = Object.keys(state.chats);
-                if (chatIds.length > SECURITY_CONFIG.MAX_HISTORY_ITEMS) {
-                    const sortedChats = chatIds
-                        .map(id => state.chats[id])
-                        .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
-                    
-                    const chatsToKeep = sortedChats.slice(0, SECURITY_CONFIG.MAX_HISTORY_ITEMS);
-                    state.chats = {};
-                    chatsToKeep.forEach(chat => {
-                        state.chats[chat.id] = chat;
-                    });
                 }
             };
 
@@ -1562,29 +1352,13 @@
 
             const sanitizeInput = (input) => {
                 if (typeof input !== 'string') return '';
-                return input
-                    .slice(0, SECURITY_CONFIG.MAX_MESSAGE_LENGTH)
-                    .replace(/[<>]/g, '')
-                    .trim();
+                return input.slice(0, 2000).replace(/[<>]/g, '').trim();
             };
 
             const validateMessage = (message) => {
                 if (!message || typeof message !== 'string') return false;
-                if (message.length > SECURITY_CONFIG.MAX_MESSAGE_LENGTH) return false;
-                if (message.trim().length === 0) return false;
-                
-                const now = Date.now();
-                if (now - state.rateLimits.lastRequest < 1000) {
-                    state.rateLimits.requestCount++;
-                    if (state.rateLimits.requestCount > 5) {
-                        return false;
-                    }
-                } else {
-                    state.rateLimits.requestCount = 1;
-                }
-                state.rateLimits.lastRequest = now;
-                
-                return true;
+                if (message.length > 2000) return false;
+                return message.trim().length > 0;
             };
 
             const texts = {
@@ -1622,8 +1396,7 @@
                     chat: "Чат",
                     history: "История чатов",
                     stats: "Статистика",
-                    interfaceLanguage: "Язык интерфейса",
-                    serverOverloaded: "Сервер перегружен, попробуйте позже"
+                    interfaceLanguage: "Язык интерфейса"
                 },
                 en: {
                     welcomeTitle: "NeuroFlora",
@@ -1659,8 +1432,7 @@
                     chat: "Chat",
                     history: "Chat History",
                     stats: "Statistics",
-                    interfaceLanguage: "Interface language",
-                    serverOverloaded: "Server overloaded, try again later"
+                    interfaceLanguage: "Interface language"
                 },
                 uk: {
                     welcomeTitle: "NeuroFlora",
@@ -1696,8 +1468,7 @@
                     chat: "Чат",
                     history: "Історія чатів",
                     stats: "Статистика",
-                    interfaceLanguage: "Мова інтерфейсу",
-                    serverOverloaded: "Сервер перевантажений, спробуйте пізніше"
+                    interfaceLanguage: "Мова інтерфейсу"
                 },
                 be: {
                     welcomeTitle: "NeuroFlora",
@@ -1733,8 +1504,7 @@
                     chat: "Чат",
                     history: "Гісторыя чатаў",
                     stats: "Статыстыка",
-                    interfaceLanguage: "Мова інтэрфейсу",
-                    serverOverloaded: "Сервер перагружаны, паспрабуйце пазней"
+                    interfaceLanguage: "Мова інтэрфейсу"
                 },
                 kk: {
                     welcomeTitle: "NeuroFlora",
@@ -1770,8 +1540,7 @@
                     chat: "Чат",
                     history: "Чат тарихы",
                     stats: "Статистика",
-                    interfaceLanguage: "Интерфейс тілі",
-                    serverOverloaded: "Сервер шамадан тыс жүктелген, кейінірек көріңіз"
+                    interfaceLanguage: "Интерфейс тілі"
                 },
                 fr: {
                     welcomeTitle: "NeuroFlora",
@@ -1807,46 +1576,38 @@
                     chat: "Chat",
                     history: "Historique des chats",
                     stats: "Statistiques",
-                    interfaceLanguage: "Langue de l'interface",
-                    serverOverloaded: "Serveur surchargé, réessayez plus tard"
+                    interfaceLanguage: "Langue de l'interface"
                 }
             };
 
             const DOM = {
-                elements: {},
-                
-                init: function() {
-                    this.elements = {
-                        sidebar: document.getElementById('sidebar'),
-                        messageInput: document.getElementById('message-input'),
-                        sendButton: document.getElementById('send-button'),
-                        messagesContainer: document.getElementById('messages-container'),
-                        welcomeMessage: document.getElementById('welcome-message'),
-                        historyList: document.getElementById('history-list'),
-                        settingsModal: document.getElementById('settings-modal'),
-                        userAvatar: document.getElementById('user-avatar'),
-                        userName: document.getElementById('user-name'),
-                        sidebarToggle: document.getElementById('sidebar-toggle'),
-                        menuToggle: document.getElementById('menu-toggle'),
-                        newChatBtn: document.getElementById('new-chat-btn'),
-                        clearChatBtn: document.getElementById('clear-chat'),
-                        themeToggle: document.getElementById('theme-toggle'),
-                        settingsBtn: document.getElementById('settings-btn'),
-                        modalClose: document.getElementById('modal-close'),
-                        charCount: document.querySelector('.char-count'),
-                        aiDisclaimer: document.getElementById('ai-disclaimer'),
-                        currentChatTitle: document.getElementById('current-chat-title'),
-                        mobileOverlay: document.getElementById('mobile-overlay'),
-                        chatContainer: document.getElementById('chat-container'),
-                        messagesWrapper: document.getElementById('messages-wrapper')
-                    };
-                }
+                sidebar: document.getElementById('sidebar'),
+                messageInput: document.getElementById('message-input'),
+                sendButton: document.getElementById('send-button'),
+                messagesContainer: document.getElementById('messages-container'),
+                welcomeMessage: document.getElementById('welcome-message'),
+                historyList: document.getElementById('history-list'),
+                settingsModal: document.getElementById('settings-modal'),
+                userAvatar: document.getElementById('user-avatar'),
+                userName: document.getElementById('user-name'),
+                sidebarToggle: document.getElementById('sidebar-toggle'),
+                menuToggle: document.getElementById('menu-toggle'),
+                newChatBtn: document.getElementById('new-chat-btn'),
+                clearChatBtn: document.getElementById('clear-chat'),
+                themeToggle: document.getElementById('theme-toggle'),
+                settingsBtn: document.getElementById('settings-btn'),
+                modalClose: document.getElementById('modal-close'),
+                charCount: document.querySelector('.char-count'),
+                aiDisclaimer: document.getElementById('ai-disclaimer'),
+                currentChatTitle: document.getElementById('current-chat-title'),
+                mobileOverlay: document.getElementById('mobile-overlay'),
+                chatContainer: document.getElementById('chat-container')
             };
 
             const API = {
                 async generateAIResponse(question) {
                     const controller = new AbortController();
-                    const timeoutId = setTimeout(() => controller.abort(), SECURITY_CONFIG.REQUEST_TIMEOUT);
+                    setTimeout(() => controller.abort(), 30000);
 
                     try {
                         const headers = {
@@ -1900,45 +1661,23 @@ ${languagePrompts[state.userSettings.language] || languagePrompts.ru}
                             signal: controller.signal
                         });
 
-                        clearTimeout(timeoutId);
-
                         if (!response.ok) {
-                            if (response.status === 403) {
-                                const t = texts[state.userSettings.language];
-                                throw new Error(t.serverOverloaded);
-                            }
                             throw new Error(`API Error: ${response.status}`);
                         }
 
                         const result = await response.json();
                         const content = result.choices[0].message.content.trim();
-                        
                         return sanitizeInput(content);
                     } catch (error) {
-                        clearTimeout(timeoutId);
-                        
                         if (error.name === 'AbortError') {
                             throw new Error('Превышено время ожидания ответа');
                         }
-                        
                         throw error;
                     }
                 }
             };
 
             const Utils = {
-                debounce: (func, wait) => {
-                    let timeout;
-                    return function executedFunction(...args) {
-                        const later = () => {
-                            clearTimeout(timeout);
-                            func(...args);
-                        };
-                        clearTimeout(timeout);
-                        timeout = setTimeout(later, wait);
-                    };
-                },
-
                 formatTime: (dateString) => {
                     const date = new Date(dateString);
                     return date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
@@ -1951,24 +1690,17 @@ ${languagePrompts[state.userSettings.language] || languagePrompts.ru}
                     textarea.style.height = Math.min(scrollHeight, maxHeight) + 'px';
                 },
 
-                isMobile: () => {
-                    return window.innerWidth <= 768;
-                },
+                isMobile: () => window.innerWidth <= 768,
 
                 scrollToBottom: () => {
-                    const chatContainer = DOM.elements.chatContainer;
-                    if (chatContainer) {
-                        requestAnimationFrame(() => {
-                            chatContainer.scrollTop = chatContainer.scrollHeight;
-                        });
-                    }
+                    requestAnimationFrame(() => {
+                        DOM.chatContainer.scrollTop = DOM.chatContainer.scrollHeight;
+                    });
                 }
             };
 
             const App = {
-                init: function() {
-                    DOM.init();
-                    
+                init() {
                     state.chats = loadFromStorage('neuroflora_chats', {
                         default: {
                             id: 'default',
@@ -1999,47 +1731,40 @@ ${languagePrompts[state.userSettings.language] || languagePrompts.ru}
                     this.handleMobileView();
                 },
 
-                setupUserProfile: function() {
+                setupUserProfile() {
                     const user = Telegram.initDataUnsafe.user;
                     if (user) {
                         const userName = user.first_name || 'Пользователь';
-                        DOM.elements.userName.textContent = escapeHtml(userName);
+                        DOM.userName.textContent = escapeHtml(userName);
                         
                         if (user.photo_url) {
-                            DOM.elements.userAvatar.style.backgroundImage = `url('${escapeHtml(user.photo_url)}')`;
-                            DOM.elements.userAvatar.style.backgroundSize = 'cover';
-                            DOM.elements.userAvatar.textContent = '';
+                            DOM.userAvatar.style.backgroundImage = `url('${escapeHtml(user.photo_url)}')`;
+                            DOM.userAvatar.style.backgroundSize = 'cover';
+                            DOM.userAvatar.textContent = '';
                         } else {
-                            DOM.elements.userAvatar.textContent = userName.charAt(0).toUpperCase();
+                            DOM.userAvatar.textContent = userName.charAt(0).toUpperCase();
                         }
                     }
                 },
 
-                loadCurrentChat: function() {
+                loadCurrentChat() {
                     const chat = state.chats[state.currentChatId];
-                    
-                    DOM.elements.messagesContainer.innerHTML = '';
+                    DOM.messagesContainer.innerHTML = '';
                     
                     if (chat.messages.length === 0) {
-                        DOM.elements.welcomeMessage.style.display = 'flex';
-                        DOM.elements.welcomeMessage.classList.add('show');
+                        DOM.welcomeMessage.style.display = 'flex';
+                        DOM.welcomeMessage.classList.add('show');
                     } else {
-                        DOM.elements.welcomeMessage.style.display = 'none';
-                        DOM.elements.welcomeMessage.classList.remove('show');
-                        
-                        chat.messages.forEach(msg => {
-                            this.renderMessage(msg);
-                        });
-                        
-                        setTimeout(() => {
-                            Utils.scrollToBottom();
-                        }, 100);
+                        DOM.welcomeMessage.style.display = 'none';
+                        DOM.welcomeMessage.classList.remove('show');
+                        chat.messages.forEach(msg => this.renderMessage(msg));
+                        Utils.scrollToBottom();
                     }
                     
                     this.updateChatHeader();
                 },
 
-                renderMessage: function(msg) {
+                renderMessage(msg) {
                     if (msg.id === 'welcome') return;
                     
                     const t = texts[state.userSettings.language];
@@ -2102,19 +1827,16 @@ ${languagePrompts[state.userSettings.language] || languagePrompts.ru}
                         
                         const likeBtn = document.createElement('button');
                         likeBtn.className = `action-btn ${rating === 'like' ? 'active' : ''}`;
-                        likeBtn.type = 'button';
                         likeBtn.innerHTML = DOMPurify.sanitize(`<i class="fas fa-thumbs-up"></i> ${t.rateHelpful}`);
                         likeBtn.onclick = () => this.rateMessage(msg.id, 'like');
                         
                         const dislikeBtn = document.createElement('button');
                         dislikeBtn.className = `action-btn ${rating === 'dislike' ? 'active' : ''}`;
-                        dislikeBtn.type = 'button';
                         dislikeBtn.innerHTML = DOMPurify.sanitize(`<i class="fas fa-thumbs-down"></i> ${t.rateNotHelpful}`);
                         dislikeBtn.onclick = () => this.rateMessage(msg.id, 'dislike');
                         
                         const copyBtn = document.createElement('button');
                         copyBtn.className = 'action-btn';
-                        copyBtn.type = 'button';
                         copyBtn.innerHTML = DOMPurify.sanitize(`<i class="fas fa-copy"></i> ${t.copy}`);
                         copyBtn.onclick = () => this.copyMessage(msg.id);
                         
@@ -2125,7 +1847,6 @@ ${languagePrompts[state.userSettings.language] || languagePrompts.ru}
                         if (isLastAIMessage) {
                             const regenerateBtn = document.createElement('button');
                             regenerateBtn.className = 'action-btn';
-                            regenerateBtn.type = 'button';
                             regenerateBtn.innerHTML = DOMPurify.sanitize(`<i class="fas fa-redo"></i> ${t.regenerate}`);
                             regenerateBtn.onclick = () => this.regenerateResponse(msg.id);
                             actions.appendChild(regenerateBtn);
@@ -2137,12 +1858,11 @@ ${languagePrompts[state.userSettings.language] || languagePrompts.ru}
                     messageContainer.appendChild(avatar);
                     messageContainer.appendChild(contentWrapper);
                     messageDiv.appendChild(messageContainer);
-                    
-                    DOM.elements.messagesContainer.appendChild(messageDiv);
+                    DOM.messagesContainer.appendChild(messageDiv);
                 },
 
                 async sendMessage() {
-                    const input = DOM.elements.messageInput;
+                    const input = DOM.messageInput;
                     const text = sanitizeInput(input.value);
                     
                     if (!validateMessage(text)) {
@@ -2150,8 +1870,7 @@ ${languagePrompts[state.userSettings.language] || languagePrompts.ru}
                         return;
                     }
                     
-                    const sendButton = DOM.elements.sendButton;
-                    sendButton.disabled = true;
+                    DOM.sendButton.disabled = true;
                     
                     const userMessage = {
                         id: Date.now().toString(),
@@ -2167,16 +1886,14 @@ ${languagePrompts[state.userSettings.language] || languagePrompts.ru}
                     this.updateCharCount();
                     Utils.autoResizeTextarea(input);
                     
-                    DOM.elements.welcomeMessage.style.display = 'none';
-                    DOM.elements.welcomeMessage.classList.remove('show');
+                    DOM.welcomeMessage.style.display = 'none';
+                    DOM.welcomeMessage.classList.remove('show');
                     
                     Utils.scrollToBottom();
-                    
                     this.showTypingIndicator();
                     
                     try {
                         const aiResponse = await API.generateAIResponse(text);
-                        
                         this.hideTypingIndicator();
                         
                         const aiMessage = {
@@ -2197,7 +1914,6 @@ ${languagePrompts[state.userSettings.language] || languagePrompts.ru}
                         Telegram.HapticFeedback.notificationOccurred('success');
                     } catch (error) {
                         this.hideTypingIndicator();
-                        
                         const t = texts[state.userSettings.language];
                         const errorMessage = {
                             id: Date.now().toString(),
@@ -2211,7 +1927,7 @@ ${languagePrompts[state.userSettings.language] || languagePrompts.ru}
                         Utils.scrollToBottom();
                         Telegram.HapticFeedback.notificationOccurred('error');
                     } finally {
-                        sendButton.disabled = false;
+                        DOM.sendButton.disabled = false;
                     }
                 },
 
@@ -2226,14 +1942,12 @@ ${languagePrompts[state.userSettings.language] || languagePrompts.ru}
                     
                     chat.messages.splice(messageIndex, 1);
                     this.saveChats();
-                    
                     this.loadCurrentChat();
                     
                     this.showTypingIndicator();
                     
                     try {
                         const aiResponse = await API.generateAIResponse(userMessage.content);
-                        
                         this.hideTypingIndicator();
                         
                         const aiMessage = {
@@ -2251,7 +1965,6 @@ ${languagePrompts[state.userSettings.language] || languagePrompts.ru}
                         Telegram.HapticFeedback.notificationOccurred('success');
                     } catch (error) {
                         this.hideTypingIndicator();
-                        
                         const t = texts[state.userSettings.language];
                         const errorMessage = {
                             id: Date.now().toString(),
@@ -2267,7 +1980,7 @@ ${languagePrompts[state.userSettings.language] || languagePrompts.ru}
                     }
                 },
 
-                addMessageToChat: function(message) {
+                addMessageToChat(message) {
                     const chat = state.chats[state.currentChatId];
                     message.content = message.content.trim();
                     chat.messages.push(message);
@@ -2275,7 +1988,7 @@ ${languagePrompts[state.userSettings.language] || languagePrompts.ru}
                     this.saveChats();
                 },
 
-                updateChatTitle: function() {
+                updateChatTitle() {
                     const chat = state.chats[state.currentChatId];
                     const lastUserMessage = chat.messages.find(m => m.role === 'user');
                     if (lastUserMessage && lastUserMessage.content) {
@@ -2289,22 +2002,16 @@ ${languagePrompts[state.userSettings.language] || languagePrompts.ru}
                     }
                 },
 
-                updateChatHeader: function() {
+                updateChatHeader() {
                     const chat = state.chats[state.currentChatId];
-                    if (chat && chat.title) {
-                        DOM.elements.currentChatTitle.textContent = chat.title;
-                    } else {
-                        DOM.elements.currentChatTitle.textContent = 'NeuroFlora';
-                    }
+                    DOM.currentChatTitle.textContent = chat?.title || 'NeuroFlora';
                 },
 
-                showTypingIndicator: function() {
+                showTypingIndicator() {
                     const t = texts[state.userSettings.language];
-                    
                     const typingDiv = document.createElement('div');
                     typingDiv.className = 'typing-indicator';
                     typingDiv.id = 'typing-indicator';
-                    
                     typingDiv.innerHTML = DOMPurify.sanitize(`
                         <div class="bot-avatar-sm" style="background-image: url('https://i.postimg.cc/SxdqDwpy/Bez-nazvania54-20251214232638.png')"></div>
                         <div class="typing-dots">
@@ -2314,48 +2021,33 @@ ${languagePrompts[state.userSettings.language] || languagePrompts.ru}
                         </div>
                         <div>${t.typing}</div>
                     `);
-                    
-                    DOM.elements.messagesContainer.appendChild(typingDiv);
+                    DOM.messagesContainer.appendChild(typingDiv);
                     Utils.scrollToBottom();
                 },
 
-                hideTypingIndicator: function() {
+                hideTypingIndicator() {
                     const indicator = document.getElementById('typing-indicator');
-                    if (indicator) {
-                        indicator.remove();
-                    }
+                    if (indicator) indicator.remove();
                 },
 
-                rateMessage: function(messageId, rating) {
+                rateMessage(messageId, rating) {
                     state.messageRatings[messageId] = rating;
                     saveToStorage('neuroflora_ratings', state.messageRatings);
-                    
-                    const messageDiv = document.getElementById(`message-${messageId}`);
-                    if (messageDiv) {
-                        const likeBtn = messageDiv.querySelector('.action-btn:nth-child(1)');
-                        const dislikeBtn = messageDiv.querySelector('.action-btn:nth-child(2)');
-                        
-                        if (likeBtn) likeBtn.classList.toggle('active', rating === 'like');
-                        if (dislikeBtn) dislikeBtn.classList.toggle('active', rating === 'dislike');
-                    }
-                    
                     this.updateStatistics();
                 },
 
-                copyMessage: function(messageId) {
+                copyMessage(messageId) {
                     const messageDiv = document.getElementById(`message-${messageId}`);
                     if (messageDiv) {
                         const text = messageDiv.querySelector('.message-content').textContent;
                         navigator.clipboard.writeText(text).then(() => {
                             const t = texts[state.userSettings.language];
                             Telegram.WebApp.showAlert(t.copySuccess);
-                        }).catch(err => {
-                            Telegram.WebApp.showAlert('Не удалось скопировать');
                         });
                     }
                 },
 
-                createNewChat: function() {
+                createNewChat() {
                     const chatId = Date.now().toString();
                     const t = texts[state.userSettings.language];
                     const newChat = {
@@ -2374,13 +2066,10 @@ ${languagePrompts[state.userSettings.language] || languagePrompts.ru}
                     this.loadHistoryList();
                     
                     Telegram.HapticFeedback.selectionChanged();
-                    
-                    if (Utils.isMobile()) {
-                        this.closeSidebar();
-                    }
+                    if (Utils.isMobile()) this.closeSidebar();
                 },
 
-                clearCurrentChat: function() {
+                clearCurrentChat() {
                     const t = texts[state.userSettings.language];
                     if (confirm(t.confirmClear)) {
                         const chat = state.chats[state.currentChatId];
@@ -2394,21 +2083,15 @@ ${languagePrompts[state.userSettings.language] || languagePrompts.ru}
                     }
                 },
 
-                deleteChat: function(chatId, event) {
-                    if (event) {
-                        event.stopPropagation();
-                    }
-                    
+                deleteChat(chatId, event) {
+                    event?.stopPropagation();
                     const t = texts[state.userSettings.language];
-                    if (!confirm(t.confirmDeleteChat)) {
-                        return;
-                    }
+                    if (!confirm(t.confirmDeleteChat)) return;
                     
                     if (chatId === state.currentChatId) {
                         state.currentChatId = 'default';
-                        if (!state.chats['default']) {
-                            const t = texts[state.userSettings.language];
-                            state.chats['default'] = {
+                        if (!state.chats.default) {
+                            state.chats.default = {
                                 id: 'default',
                                 title: t.newChat,
                                 messages: [],
@@ -2425,11 +2108,11 @@ ${languagePrompts[state.userSettings.language] || languagePrompts.ru}
                     this.updateStatistics();
                 },
 
-                loadHistoryList: function() {
-                    const container = DOM.elements.historyList;
+                loadHistoryList() {
+                    const container = DOM.historyList;
                     const chatIds = Object.keys(state.chats);
                     
-                    if (chatIds.length === 0 || (chatIds.length === 1 && chatIds[0] === 'default' && state.chats['default'].messages.length === 0)) {
+                    if (chatIds.length === 0 || (chatIds.length === 1 && state.chats.default.messages.length === 0)) {
                         const t = texts[state.userSettings.language];
                         container.innerHTML = DOMPurify.sanitize(`
                             <div style="padding: 40px 20px; text-align: center; color: var(--text-tertiary);">
@@ -2459,7 +2142,6 @@ ${languagePrompts[state.userSettings.language] || languagePrompts.ru}
                         }
                         
                         const time = new Date(chat.updatedAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-                        
                         const historyItem = document.createElement('div');
                         historyItem.className = `history-item ${chat.id === state.currentChatId ? 'active' : ''}`;
                         
@@ -2480,60 +2162,36 @@ ${languagePrompts[state.userSettings.language] || languagePrompts.ru}
                         const deleteBtn = document.createElement('button');
                         deleteBtn.className = 'history-delete-btn';
                         deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
-                        deleteBtn.onclick = (e) => {
-                            e.stopPropagation();
-                            this.deleteChat(chat.id, e);
-                        };
+                        deleteBtn.onclick = (e) => this.deleteChat(chat.id, e);
                         
                         historyItem.appendChild(historyPreview);
                         historyItem.appendChild(deleteBtn);
-                        
-                        historyItem.onclick = () => {
-                            this.switchChat(chat.id);
-                        };
+                        historyItem.onclick = () => this.switchChat(chat.id);
                         
                         container.appendChild(historyItem);
                     });
                 },
 
-                switchChat: function(chatId) {
+                switchChat(chatId) {
                     state.currentChatId = chatId;
                     this.loadCurrentChat();
                     this.loadHistoryList();
-                    
-                    if (Utils.isMobile()) {
-                        this.closeSidebar();
-                    }
+                    if (Utils.isMobile()) this.closeSidebar();
                 },
 
-                updateInterfaceLanguage: function() {
+                updateInterfaceLanguage() {
                     const lang = state.userSettings.language;
                     const t = texts[lang];
                     
-                    DOM.elements.messageInput.placeholder = t.placeholder;
-                    
+                    DOM.messageInput.placeholder = t.placeholder;
                     document.getElementById('new-chat-text').textContent = t.newChat;
                     document.getElementById('chat-tab-text').textContent = t.chat;
                     document.getElementById('settings-tab-text').textContent = t.settings;
                     document.getElementById('history-title-text').textContent = t.history;
                     document.getElementById('user-status-text').textContent = t.online;
-                    
                     document.getElementById('welcome-title').textContent = t.welcomeTitle;
                     document.getElementById('welcome-subtitle').textContent = t.welcomeSubtitle;
-                    
-                    const exampleCards = document.querySelectorAll('.example-card');
-                    const exampleQuestions = t.exampleQuestions || [];
-                    
-                    exampleCards.forEach((card, index) => {
-                        const textDiv = card.querySelector('.example-text');
-                        if (textDiv && exampleQuestions[index]) {
-                            textDiv.textContent = exampleQuestions[index];
-                            card.dataset.question = exampleQuestions[index];
-                        }
-                    });
-                    
                     document.getElementById('ai-disclaimer').textContent = t.aiDisclaimer;
-                    
                     document.getElementById('modal-title-text').textContent = t.settings;
                     document.getElementById('stats-title-text').textContent = t.stats;
                     document.getElementById('total-questions-text').textContent = t.totalQuestions;
@@ -2541,15 +2199,22 @@ ${languagePrompts[state.userSettings.language] || languagePrompts.ru}
                     document.getElementById('language-text').textContent = t.language;
                     document.getElementById('interface-language-text').textContent = t.interfaceLanguage;
                     
+                    document.querySelectorAll('.example-card').forEach((card, index) => {
+                        const textDiv = card.querySelector('.example-text');
+                        if (textDiv && t.exampleQuestions[index]) {
+                            textDiv.textContent = t.exampleQuestions[index];
+                            card.dataset.question = t.exampleQuestions[index];
+                        }
+                    });
+                    
                     document.querySelectorAll('.language-option').forEach(opt => {
                         opt.classList.toggle('active', opt.dataset.lang === lang);
                     });
                 },
 
-                updateStatistics: function() {
+                updateStatistics() {
                     const chat = state.chats[state.currentChatId];
                     const totalQuestions = chat.messages.filter(m => m.role === 'user').length;
-                    
                     const ratedMessages = Object.values(state.messageRatings);
                     const helpfulCount = ratedMessages.filter(r => r === 'like').length;
                     const helpfulPercentage = ratedMessages.length > 0 ? 
@@ -2560,209 +2225,140 @@ ${languagePrompts[state.userSettings.language] || languagePrompts.ru}
                     document.getElementById('stat-language').textContent = state.userSettings.language.toUpperCase();
                 },
 
-                toggleTheme: function() {
+                toggleTheme() {
                     const isDark = document.body.classList.toggle('dark-theme');
                     state.userSettings.theme = isDark ? 'dark' : 'light';
                     this.saveSettings();
-                    
-                    const themeIcon = document.getElementById('theme-toggle').querySelector('i');
-                    themeIcon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+                    document.getElementById('theme-toggle').querySelector('i').className = isDark ? 'fas fa-sun' : 'fas fa-moon';
                 },
 
-                toggleSidebar: function() {
+                toggleSidebar() {
                     if (Utils.isMobile()) {
-                        const isActive = DOM.elements.sidebar.classList.toggle('active');
-                        DOM.elements.mobileOverlay.classList.toggle('active', isActive);
+                        const isActive = DOM.sidebar.classList.toggle('active');
+                        DOM.mobileOverlay.classList.toggle('active', isActive);
                         document.body.classList.toggle('no-scroll', isActive);
                     } else {
-                        const isHidden = DOM.elements.sidebar.classList.toggle('hidden');
+                        const isHidden = DOM.sidebar.classList.toggle('hidden');
                         state.userSettings.sidebarHidden = isHidden;
                         this.saveSettings();
-                        
-                        const toggleIcon = DOM.elements.sidebarToggle.querySelector('i');
-                        toggleIcon.className = isHidden ? 'fas fa-chevron-left' : 'fas fa-chevron-right';
+                        DOM.sidebarToggle.querySelector('i').className = isHidden ? 'fas fa-chevron-left' : 'fas fa-chevron-right';
                     }
                 },
 
-                closeSidebar: function() {
+                closeSidebar() {
                     if (Utils.isMobile()) {
-                        DOM.elements.sidebar.classList.remove('active');
-                        DOM.elements.mobileOverlay.classList.remove('active');
+                        DOM.sidebar.classList.remove('active');
+                        DOM.mobileOverlay.classList.remove('active');
                         document.body.classList.remove('no-scroll');
                     }
                 },
 
-                updateSidebarState: function() {
+                updateSidebarState() {
                     if (!Utils.isMobile()) {
-                        const sidebar = DOM.elements.sidebar;
-                        const toggleIcon = DOM.elements.sidebarToggle.querySelector('i');
-                        
                         if (state.userSettings.sidebarHidden) {
-                            sidebar.classList.add('hidden');
-                            toggleIcon.className = 'fas fa-chevron-left';
+                            DOM.sidebar.classList.add('hidden');
+                            DOM.sidebarToggle.querySelector('i').className = 'fas fa-chevron-left';
                         } else {
-                            sidebar.classList.remove('hidden');
-                            toggleIcon.className = 'fas fa-chevron-right';
+                            DOM.sidebar.classList.remove('hidden');
+                            DOM.sidebarToggle.querySelector('i').className = 'fas fa-chevron-right';
                         }
                     }
                 },
 
-                applyTheme: function() {
+                applyTheme() {
                     if (state.userSettings.theme === 'dark') {
                         document.body.classList.add('dark-theme');
-                        const themeIcon = document.getElementById('theme-toggle').querySelector('i');
-                        themeIcon.className = 'fas fa-sun';
+                        document.getElementById('theme-toggle').querySelector('i').className = 'fas fa-sun';
                     }
                 },
 
-                handleMobileView: function() {
+                handleMobileView() {
                     if (Utils.isMobile()) {
-                        DOM.elements.sidebar.classList.remove('hidden');
-                        DOM.elements.sidebar.classList.add('active');
-                        setTimeout(() => {
-                            this.closeSidebar();
-                        }, 100);
+                        DOM.sidebar.classList.remove('hidden');
+                        DOM.sidebar.classList.add('active');
+                        setTimeout(() => this.closeSidebar(), 100);
                     }
                 },
 
-                updateCharCount: function() {
-                    const input = DOM.elements.messageInput;
-                    const charCount = DOM.elements.charCount;
-                    if (charCount) {
-                        charCount.textContent = `${input.value.length}/2000`;
-                    }
+                updateCharCount() {
+                    DOM.charCount.textContent = `${DOM.messageInput.value.length}/2000`;
                 },
 
-                saveChats: function() {
-                    cleanHistory();
+                saveChats() {
                     saveToStorage('neuroflora_chats', state.chats);
                 },
 
-                saveSettings: function() {
+                saveSettings() {
                     saveToStorage('neuroflora_settings', state.userSettings);
                 },
 
-                setupEventListeners: function() {
-                    DOM.elements.sendButton.addEventListener('click', () => this.sendMessage());
-                    
-                    DOM.elements.messageInput.addEventListener('keydown', (e) => {
+                setupEventListeners() {
+                    DOM.sendButton.addEventListener('click', () => this.sendMessage());
+                    DOM.messageInput.addEventListener('keydown', (e) => {
                         if (e.key === 'Enter' && !e.shiftKey) {
                             e.preventDefault();
                             this.sendMessage();
                         }
                     });
-                    
-                    const debouncedResize = Utils.debounce(() => {
-                        Utils.autoResizeTextarea(DOM.elements.messageInput);
-                    }, SECURITY_CONFIG.DEBOUNCE_DELAY);
-                    
-                    DOM.elements.messageInput.addEventListener('input', () => {
+                    DOM.messageInput.addEventListener('input', () => {
                         this.updateCharCount();
-                        debouncedResize();
+                        Utils.autoResizeTextarea(DOM.messageInput);
                     });
-                    
-                    DOM.elements.newChatBtn.addEventListener('click', () => this.createNewChat());
-                    
-                    DOM.elements.clearChatBtn.addEventListener('click', () => this.clearCurrentChat());
-                    
-                    DOM.elements.themeToggle.addEventListener('click', () => this.toggleTheme());
-                    
-                    DOM.elements.menuToggle.addEventListener('click', () => this.toggleSidebar());
-                    
-                    DOM.elements.sidebarToggle.addEventListener('click', () => this.toggleSidebar());
-                    
-                    DOM.elements.mobileOverlay.addEventListener('click', () => this.closeSidebar());
-                    
+                    DOM.newChatBtn.addEventListener('click', () => this.createNewChat());
+                    DOM.clearChatBtn.addEventListener('click', () => this.clearCurrentChat());
+                    DOM.themeToggle.addEventListener('click', () => this.toggleTheme());
+                    DOM.menuToggle.addEventListener('click', () => this.toggleSidebar());
+                    DOM.sidebarToggle.addEventListener('click', () => this.toggleSidebar());
+                    DOM.mobileOverlay.addEventListener('click', () => this.closeSidebar());
                     document.querySelectorAll('.nav-item').forEach(item => {
                         item.addEventListener('click', () => {
                             document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
                             item.classList.add('active');
-                            
-                            if (Utils.isMobile()) {
-                                this.closeSidebar();
-                            }
+                            if (Utils.isMobile()) this.closeSidebar();
                         });
                     });
-                    
-                    DOM.elements.settingsBtn.addEventListener('click', () => {
-                        DOM.elements.settingsModal.classList.add('active');
+                    DOM.settingsBtn.addEventListener('click', () => {
+                        DOM.settingsModal.classList.add('active');
                         this.updateStatistics();
                         Telegram.BackButton.show();
-                        if (Utils.isMobile()) {
-                            this.closeSidebar();
-                        }
+                        if (Utils.isMobile()) this.closeSidebar();
                     });
-                    
                     Telegram.BackButton.onClick(() => {
-                        DOM.elements.settingsModal.classList.remove('active');
+                        DOM.settingsModal.classList.remove('active');
                         Telegram.BackButton.hide();
                     });
-                    
-                    DOM.elements.modalClose.addEventListener('click', () => {
-                        DOM.elements.settingsModal.classList.remove('active');
+                    DOM.modalClose.addEventListener('click', () => {
+                        DOM.settingsModal.classList.remove('active');
                         Telegram.BackButton.hide();
                     });
-                    
-                    DOM.elements.settingsModal.addEventListener('click', (e) => {
-                        if (e.target === DOM.elements.settingsModal) {
-                            DOM.elements.settingsModal.classList.remove('active');
+                    DOM.settingsModal.addEventListener('click', (e) => {
+                        if (e.target === DOM.settingsModal) {
+                            DOM.settingsModal.classList.remove('active');
                             Telegram.BackButton.hide();
                         }
                     });
-                    
                     document.querySelectorAll('.language-option').forEach(option => {
                         option.addEventListener('click', () => {
                             const lang = option.dataset.lang;
-                            
                             state.userSettings.language = lang;
                             this.saveSettings();
                             this.updateInterfaceLanguage();
                             this.updateStatistics();
-                            
-                            const t = texts[lang];
-                            Telegram.WebApp.showAlert(t.languageChanged);
+                            Telegram.WebApp.showAlert(texts[lang].languageChanged);
                         });
                     });
-                    
                     document.querySelectorAll('.example-card').forEach(card => {
                         card.addEventListener('click', () => {
                             const question = card.dataset.question;
-                            DOM.elements.messageInput.value = question;
-                            Utils.autoResizeTextarea(DOM.elements.messageInput);
+                            DOM.messageInput.value = question;
+                            Utils.autoResizeTextarea(DOM.messageInput);
                             this.updateCharCount();
-                            
-                            setTimeout(() => {
-                                DOM.elements.messageInput.focus();
-                            }, 100);
+                            setTimeout(() => DOM.messageInput.focus(), 100);
                         });
                     });
-                    
-                    let touchStartX = 0;
-                    
-                    document.addEventListener('touchstart', (e) => {
-                        touchStartX = e.changedTouches[0].screenX;
-                    }, { passive: true });
-                    
-                    document.addEventListener('touchend', (e) => {
-                        const touchEndX = e.changedTouches[0].screenX;
-                        const diff = touchStartX - touchEndX;
-                        
-                        if (Math.abs(diff) > 50 && touchStartX > window.innerWidth * 0.7) {
-                            this.closeSidebar();
-                        }
-                    }, { passive: true });
-                    
                     window.addEventListener('resize', () => {
                         this.handleMobileView();
-                        if (window.innerWidth > 768) {
-                            this.closeSidebar();
-                        }
-                    });
-                    
-                    window.addEventListener('orientationchange', () => {
-                        setTimeout(() => {
-                            this.handleMobileView();
-                        }, 300);
+                        if (window.innerWidth > 768) this.closeSidebar();
                     });
                 }
             };
